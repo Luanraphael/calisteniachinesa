@@ -81,7 +81,15 @@ export function useQuizEngine() {
     setStepIndex((i) => {
       const step = quizSteps[i];
       if (step) trackQuizEvent("quiz_back_clicked", { step_id: step.id, step_number: i });
-      return Math.max(i - 1, 0);
+      // Loading steps auto-advance on a timer (donut) or their own completion logic
+      // (sequential) — landing back on one re-triggers that timer and bounces the lead
+      // straight forward again, trapping her on the step she was trying to leave. Skip
+      // over any run of loading steps so "back" always lands on a real question/screen.
+      let prev = i - 1;
+      while (prev > 0 && quizSteps[prev]?.type === "loading") {
+        prev -= 1;
+      }
+      return Math.max(prev, 0);
     });
   }, []);
 

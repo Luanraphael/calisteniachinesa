@@ -148,7 +148,7 @@ export const quizSteps: QuizStep[] = [
       { id: "tired", label: "Vivo cansada e sem energia", emoji: "🥱" },
       { id: "selfesteem", label: "Minha autoestima não é mais a mesma", emoji: "💔" },
       { id: "irritated", label: "Vivo tensa, irritada e sem paciência", emoji: "😤" },
-      { id: "sleep", label: "Durmo muito mal", emoji: "🫩" },
+      { id: "sleep", label: "Durmo muito mal", emoji: "😴" },
       { id: "none", label: "Nenhuma das opções acima", neutral: true, exclusive: true },
     ],
   },
@@ -465,7 +465,7 @@ export const quizSteps: QuizStep[] = [
     headline: "Como está seu **nível de energia** ao longo do dia?",
     answerKey: "energyLevel",
     options: [
-      { id: "exhausted", label: "Me sinto exausta a maior parte do tempo", emoji: "🫩" },
+      { id: "exhausted", label: "Me sinto exausta a maior parte do tempo", emoji: "😩" },
       { id: "varies", label: "Varia ao longo do dia", emoji: "😮‍💨" },
       { id: "active", label: "Geralmente sou muito ativa", emoji: "⚡️" },
     ],

@@ -9,19 +9,41 @@ export function BmiGauge({ bmi }: { bmi: number }) {
 
   return (
     <div className="w-full">
-      <div className="relative mb-3 flex justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-          className="rounded-full bg-text px-3 py-1.5 text-xs font-bold text-white shadow-md"
-          style={{ position: "absolute", left: `${pos}%`, transform: "translateX(-50%)", top: -6, whiteSpace: "nowrap" }}
+      {/* Reserves real vertical space for the pill (it used to be a negative-offset
+          absolute child of a zero-height container, which let it drift down and
+          overlap the gauge bar/dot below for BMI values near the gauge's edges). */}
+      <div className="relative h-10 w-full">
+        {/* Plain element owns the horizontal centering transform. Framer Motion takes
+            full ownership of the `transform` CSS property on any element whose animate
+            props include `y` (or x/scale/rotate) — a static translateX(-50%) set via
+            style on that same motion.div gets silently overwritten by its y-animation,
+            which is exactly why the pill used to drift and overlap instead of centering
+            on its clamped left position. Nesting the animated fade-in inside a plain,
+            statically-positioned wrapper keeps the two transforms from fighting. */}
+        <div
+          className="absolute bottom-0 z-10"
+          style={{
+            // A percentage-only clamp assumes a fixed pill width, but "Seu IMC: X" grows
+            // with the number of digits — mixing px and % in clamp() keeps the pill's
+            // edge a fixed safe distance from the container's edge no matter the text
+            // length or the viewport width, instead of guessing a percentage that only
+            // happens to work for one BMI value.
+            left: `clamp(72px, ${pos}%, calc(100% - 72px))`,
+            transform: "translateX(-50%)",
+          }}
         >
-          Seu IMC: {bmi.toFixed(1)}
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
+            className="whitespace-nowrap rounded-full bg-text px-3 py-1.5 text-xs font-bold text-white shadow-md"
+          >
+            Seu IMC: {bmi.toFixed(1)}
+          </motion.div>
+        </div>
       </div>
 
-      <div className="relative mt-9 h-3 w-full overflow-hidden rounded-full">
+      <div className="relative mt-2 h-3 w-full overflow-hidden rounded-full">
         <div
           className="h-full w-full"
           style={{

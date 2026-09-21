@@ -263,6 +263,21 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <FullImage src="/images/quiz/offer-training-complete.png" alt="Cronograma semanal completo do treinamento" />
       </div>
 
+      {/* Rating strip */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="flex flex-col items-center gap-1 rounded-2xl border border-border bg-surface py-5"
+      >
+        <div className="flex gap-0.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star key={i} size={18} className="fill-pink-strong text-pink-strong" />
+          ))}
+        </div>
+        <p className="text-[13px] font-bold text-text">Nota 4,9/5,0 com base nas avaliações do programa</p>
+      </motion.div>
+
       {/* Bonuses */}
       <div>
         <SectionTitle eyebrow="Bônus exclusivos" title="Além de tudo, você também recebe" />
@@ -308,41 +323,16 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         >
           <p className="text-[13px] leading-relaxed" style={{ color: "var(--color-callout-text)" }}>
             O valor total desses 5 bônus é de <span className="font-extrabold">{BONUSES_TOTAL}</span>, mas{" "}
-            <span className="font-extrabold">apenas hoje</span>, durante esta promoção, tudo isso sai{" "}
-            <span className="font-extrabold text-success">de graça</span> — a oferta vale enquanto durar a contagem regressiva de 10 minutos acima.
+            <span className="font-extrabold">apenas hoje</span>, durante esta promoção, Você receberá tudo de forma{" "}
+            <span className="font-extrabold text-success">Gratuita!.</span>
           </p>
         </motion.div>
       </div>
 
-      {/* Rating strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="flex flex-col items-center gap-1 rounded-2xl border border-border bg-surface py-5"
-      >
-        <div className="flex gap-0.5">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} size={18} className="fill-pink-strong text-pink-strong" />
-          ))}
-        </div>
-        <p className="text-[13px] font-bold text-text">Nota 4,9/5,0 com base nas avaliações do programa</p>
-      </motion.div>
-
-      {/* Plans repeated */}
+      {/* Plans repeated — the page's last main CTA before the guarantee/FAQ close-out */}
       <div className="flex flex-col gap-4">
         <SectionTitle title="Escolha o seu plano" />
         <PlanSelector selected={selectedPlan} onSelect={setSelectedPlan} onCta={handleCheckoutClick} />
-      </div>
-
-      {/* FAQ */}
-      <div>
-        <SectionTitle title="Perguntas frequentes" />
-        <FaqAccordion />
-      </div>
-
-      <div className="sticky bottom-0 -mx-5 border-t border-border bg-bg/95 px-5 pb-[max(env(safe-area-inset-bottom),1rem)] pt-3 backdrop-blur-sm">
-        <CTAButton label={`Quero o ${plan.name.toLowerCase()}`} onClick={handleCheckoutClick} />
       </div>
 
       {/* Guarantee */}
@@ -369,7 +359,18 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           você, é só entrar em contato com nosso suporte e devolvemos 100% do valor pago, sem burocracia e sem
           perguntas.
         </p>
+        <CTAButton label={`Quero o ${plan.name.toLowerCase()}`} onClick={handleCheckoutClick} className="mt-1" />
       </motion.div>
+
+      {/* FAQ */}
+      <div>
+        <SectionTitle title="Perguntas frequentes" />
+        <FaqAccordion />
+      </div>
+
+      <div className="sticky bottom-0 -mx-5 border-t border-border bg-bg/95 px-5 pb-[max(env(safe-area-inset-bottom),1rem)] pt-3 backdrop-blur-sm">
+        <CTAButton label={`Quero o ${plan.name.toLowerCase()}`} onClick={handleCheckoutClick} />
+      </div>
     </div>
   );
 }
