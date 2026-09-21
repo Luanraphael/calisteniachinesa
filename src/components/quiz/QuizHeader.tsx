@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import { ProgressBar } from "./ProgressBar";
 import { BRAND_NAME } from "@/lib/quizData";
@@ -28,8 +29,16 @@ export function QuizHeader({
         >
           <ChevronLeft size={20} strokeWidth={2.25} />
         </button>
-        <span className="flex-1 text-center text-[13px] font-bold tracking-[0.14em] text-text-secondary">
-          {BRAND_NAME.toUpperCase()}
+        <span className="flex flex-1 items-center justify-center">
+          <Image
+            src="/images/quiz/brand-logo.png"
+            alt={BRAND_NAME}
+            width={1106}
+            height={657}
+            priority
+            className="h-8 w-auto"
+            sizes="140px"
+          />
         </span>
         <span className="h-8 w-8 shrink-0" aria-hidden />
       </div>
