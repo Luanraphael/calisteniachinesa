@@ -17,8 +17,7 @@ import { ResultOfferScreen } from "./screens/ResultOfferScreen";
 import type { Answers } from "@/lib/quizTypes";
 
 export function QuizApp() {
-  const { hydrated, step, stepIndex, answers, direction, progressPct, goNext, goBack, setAnswer, restart } =
-    useQuizEngine();
+  const { hydrated, step, stepIndex, answers, direction, progressPct, goNext, goBack, setAnswer } = useQuizEngine();
 
   if (!hydrated || !step) {
     return (
@@ -38,13 +37,6 @@ export function QuizApp() {
       <StepTransition stepKey={step.id} direction={direction}>
         {renderStep()}
       </StepTransition>
-      {step.type === "result" && (
-        <div className="pb-6 pt-8 text-center">
-          <button type="button" onClick={restart} className="text-[12px] font-semibold text-text-tertiary underline underline-offset-2">
-            Refazer o quiz
-          </button>
-        </div>
-      )}
     </QuizShell>
   );
 

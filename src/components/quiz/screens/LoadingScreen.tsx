@@ -83,7 +83,6 @@ function SequentialLoading({
   const tasks = step.tasks ?? ["Analisando suas respostas"];
   const barRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [showResult, setShowResult] = useState(false);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
 
   useEffect(() => {
@@ -124,7 +123,6 @@ function SequentialLoading({
         setActiveIndex((i) => i + 1);
       } else {
         trackQuizEvent("quiz_analysis_completed", { step_id: step.id });
-        window.setTimeout(() => setShowResult(true), 300);
         window.setTimeout(onDone, step.showSocialProof ? 2600 : 700);
       }
     }
@@ -178,6 +176,29 @@ function SequentialLoading({
         ))}
       </div>
 
+      {step.showSocialProof && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="flex flex-col items-center gap-2 text-center"
+        >
+          <p className="text-[17px] font-extrabold leading-snug text-text">
+            O corpo muda por completo..
+            <br />
+            <span className="text-success-strong">Emagrecer é só o começo!</span>
+          </p>
+          <div className="flex justify-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={17} className="fill-pink-strong text-pink-strong" />
+            ))}
+          </div>
+          <p className="text-[12.5px] font-medium text-text-secondary">
+            Nota <span className="font-bold text-pink-strong">4,93/5,0</span> baseado em 34.394 avaliações
+          </p>
+        </motion.div>
+      )}
+
       {step.testimonials && step.testimonials.length > 0 && (
         <div className="relative w-full overflow-hidden rounded-2xl bg-[#faf6f8] shadow-sm">
           <AnimatePresence mode="wait">
@@ -200,24 +221,6 @@ function SequentialLoading({
             </motion.div>
           </AnimatePresence>
         </div>
-      )}
-
-      {showResult && step.showSocialProof && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="flex flex-col items-center gap-1 text-center"
-        >
-          <div className="flex justify-center gap-0.5">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} size={17} className="fill-pink-strong text-pink-strong" />
-            ))}
-          </div>
-          <p className="mt-1.5 text-[12.5px] font-medium text-text-secondary">
-            Nota <span className="font-bold text-pink-strong">4,93/5,0</span> baseada em 34.394 avaliações
-          </p>
-        </motion.div>
       )}
     </div>
   );

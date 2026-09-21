@@ -65,8 +65,6 @@ export const quizSteps: QuizStep[] = [
     id: "goal",
     type: "choice",
     imageList: true,
-    image: img("goal-hero", "full", "Mulher comemorando -8kg na balança", `${P}/goal-hero.png`),
-    imageAboveHeadline: true,
     headline: "Qual objetivo é mais importante **pra você agora**?",
     answerKey: "goal",
     options: [
@@ -631,6 +629,26 @@ export function intensityLabel(a: Answers): string {
     decide: "Adaptado ao seu ritmo",
   };
   return map[(a.intensity as string) ?? "decide"] ?? "Adaptado ao seu ritmo";
+}
+
+/**
+ * The offer page's "Objetivo" card combines two answers: the goal step's answer verbatim,
+ * plus each selected body-area "dor" from "Quais áreas do corpo..." rewritten as its
+ * positive-opposite outcome (never shown as raw "dor" — reads oddly in an objective block).
+ */
+export function offerObjectiveLines(a: Answers): string[] {
+  const positiveMap: Record<string, string> = {
+    belly: "Eliminar barriga",
+    arms: "Braços firmes e tonificados",
+    legs: "Pernas firmes e tonificadas",
+    butt: "Bumbum empinado",
+    posture: "Postura mais alinhada",
+    full: "Transformar o corpo todo",
+  };
+  const val = a.focusArea;
+  const list = Array.isArray(val) ? val : val ? [val as string] : [];
+  const areas = list.map((v) => positiveMap[v] ?? v);
+  return [goalLabel(a), ...areas];
 }
 
 export function goalLabel(a: Answers): string {
