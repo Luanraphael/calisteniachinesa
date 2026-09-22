@@ -49,3 +49,18 @@ export function withTrackingParams(baseUrl: string): string {
   for (const [k, v] of entries) url.searchParams.set(k, v);
   return url.toString();
 }
+
+/**
+ * Forwards every param currently on the page's URL (window.location.search) onto an
+ * outgoing redirect — unlike withTrackingParams, this isn't limited to the curated
+ * TRACKED_PARAMS whitelist, so ad-network click ids and any other query param the lead
+ * arrived with keep flowing through to checkout even if we haven't special-cased them.
+ */
+export function withCurrentSearchParams(baseUrl: string): string {
+  if (typeof window === "undefined") return baseUrl;
+  const current = new URLSearchParams(window.location.search);
+  if ([...current.keys()].length === 0) return baseUrl;
+  const url = new URL(baseUrl, window.location.origin);
+  current.forEach((value, key) => url.searchParams.set(key, value));
+  return url.toString();
+}

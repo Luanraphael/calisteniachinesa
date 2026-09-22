@@ -19,6 +19,7 @@ import { FaqAccordion } from "../offer/FaqAccordion";
 import { CTAButton } from "../CTAButton";
 import { Headline } from "../Headline";
 import { trackQuizEvent } from "@/lib/analytics";
+import { withCurrentSearchParams } from "@/lib/utm";
 import { durationLabel, offerObjectiveLines, intensityLabel } from "@/lib/quizData";
 import type { Answers } from "@/lib/quizTypes";
 
@@ -125,7 +126,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   function goToCheckout(planId: string) {
     const target = PLANS.find((p) => p.id === planId) ?? PLANS[1];
     trackQuizEvent("quiz_cta_clicked", { answer_id: target.id });
-    window.location.href = target.checkoutUrl;
+    window.location.href = withCurrentSearchParams(target.checkoutUrl);
   }
 
   function handleCheckoutClick() {
