@@ -10,12 +10,20 @@ export interface Plan {
   originalPrice: string;
   price: string;
   perDay: string;
+  checkoutUrl: string;
   badge?: string;
   highlight?: boolean;
 }
 
 export const PLANS: Plan[] = [
-  { id: "1m", name: "Plano de 1 mês", originalPrice: "R$ 97,00", price: "R$ 27,00", perDay: "R$ 0,90 por dia" },
+  {
+    id: "1m",
+    name: "Plano de 1 mês",
+    originalPrice: "R$ 97,00",
+    price: "R$ 27,00",
+    perDay: "R$ 0,90 por dia",
+    checkoutUrl: "https://payfast.greenn.com.br/redirect/320659",
+  },
   {
     id: "3m",
     name: "Plano de 3 meses",
@@ -24,8 +32,16 @@ export const PLANS: Plan[] = [
     perDay: "R$ 0,52 por dia",
     badge: "MELHOR OFERTA PARA VOCÊ",
     highlight: true,
+    checkoutUrl: "https://payfast.greenn.com.br/redirect/320658",
   },
-  { id: "12m", name: "Plano Anual", originalPrice: "R$ 897,00", price: "R$ 67,00", perDay: "R$ 0,18 por dia" },
+  {
+    id: "12m",
+    name: "Plano Anual",
+    originalPrice: "R$ 897,00",
+    price: "R$ 67,00",
+    perDay: "R$ 0,18 por dia",
+    checkoutUrl: "https://payfast.greenn.com.br/redirect/320661",
+  },
 ];
 
 export function PlanSelector({

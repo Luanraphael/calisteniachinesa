@@ -26,9 +26,17 @@ declare global {
   }
 }
 
+// Maps this funnel's internal event names to the standard Meta Pixel events
+// the ad account optimizes against — keeps every screen's call to
+// trackQuizEvent() automatically feeding the pixel through one place.
+const META_PIXEL_EVENT: Partial<Record<QuizEventName, string>> = {
+  quiz_result_viewed: "Lead",
+  quiz_cta_clicked: "InitiateCheckout",
+};
+
 /**
- * Central analytics hook. No external tracker is wired up yet — this keeps a
- * single call site so pixels/GTM can be dropped in later without touching
+ * Central analytics hook — every screen reports through here so pixels/GTM
+ * stay wired up in a single call site instead of being sprinkled across
  * screen components.
  */
 export function trackQuizEvent(name: QuizEventName, payload: QuizEventPayload = {}): void {
@@ -42,6 +50,11 @@ export function trackQuizEvent(name: QuizEventName, payload: QuizEventPayload = 
 
   window.dataLayer = window.dataLayer ?? [];
   window.dataLayer.push(event);
+
+  const metaEvent = META_PIXEL_EVENT[name];
+  if (metaEvent && window.fbq) {
+    window.fbq("track", metaEvent, payload);
+  }
 
   if (process.env.NODE_ENV === "development") {
     console.debug("[quiz_event]", event);

@@ -112,7 +112,6 @@ function FullImage({ src, alt }: { src: string; alt: string }) {
 
 export function ResultOfferScreen({ answers }: { answers: Answers }) {
   const [selectedPlan, setSelectedPlan] = useState("3m");
-  const [confirmed, setConfirmed] = useState(false);
   const planSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -123,10 +122,20 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   const target = Number(answers.targetWeightKg ?? 60);
   const plan = PLANS.find((p) => p.id === selectedPlan) ?? PLANS[1];
 
+  function goToCheckout(planId: string) {
+    const target = PLANS.find((p) => p.id === planId) ?? PLANS[1];
+    trackQuizEvent("quiz_cta_clicked", { answer_id: target.id });
+    window.location.href = target.checkoutUrl;
+  }
+
   function handleCheckoutClick() {
-    trackQuizEvent("quiz_cta_clicked", { answer_id: selectedPlan });
-    planSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setConfirmed(true);
+    goToCheckout(selectedPlan);
+  }
+
+  // The guarantee section's CTA always books the 3-month plan regardless of
+  // what's selected above it, per the offer's pricing strategy.
+  function handleGuaranteeCheckoutClick() {
+    goToCheckout("3m");
   }
 
   return (
@@ -177,19 +186,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <Countdown initialSeconds={600} />
         <SectionTitle title="Escolha o seu plano" />
         <PlanSelector selected={selectedPlan} onSelect={setSelectedPlan} onCta={handleCheckoutClick} />
-
-        {confirmed && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-success-light bg-success-light px-4 py-3.5 text-center"
-          >
-            <p className="text-[13px] font-bold text-[#1c6b4c]">
-              Você selecionou o {plan.name}. Em produção, este botão leva ao checkout seguro para concluir sua
-              inscrição.
-            </p>
-          </motion.div>
-        )}
 
         <div className="flex items-center justify-center gap-2 text-center text-[11.5px] text-text-tertiary">
           <ShieldCheck size={14} className="text-success" />
@@ -359,7 +355,11 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           você, é só entrar em contato com nosso suporte e devolvemos 100% do valor pago, sem burocracia e sem
           perguntas.
         </p>
-        <CTAButton label={`Quero o ${plan.name.toLowerCase()}`} onClick={handleCheckoutClick} className="mt-1" />
+        <CTAButton
+          label="Quero o plano de 3 meses"
+          onClick={handleGuaranteeCheckoutClick}
+          className="mt-1"
+        />
       </motion.div>
 
       {/* FAQ */}
