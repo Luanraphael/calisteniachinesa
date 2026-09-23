@@ -39,7 +39,7 @@ export const quizSteps: QuizStep[] = [
     showProgress: false,
     titleLine1: "CALISTENIA CHINESA",
     titleLine2: "PARA MULHERES",
-    titleAccent: "Iniciantes",
+    titleAccent: "INICIANTES",
     subheadline: "De acordo com a sua idade",
     image: img("landing-hero", "full", "Mulher praticando Calistenia Chinesa em uma cadeira", `${P}/landing-hero.png`),
     hint: "Comece agora 👇",
