@@ -37,6 +37,7 @@ export interface LandingStep extends BaseStep {
   type: "landing";
   titleLine1: string;
   titleLine2: string;
+  titleAccent?: string;
   subheadline: string;
   image: ImageSlot;
   hint: string;

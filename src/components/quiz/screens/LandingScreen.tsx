@@ -27,7 +27,10 @@ export function LandingScreen({
         className="text-[26px] font-extrabold leading-[1.1] tracking-tight text-text"
       >
         {step.titleLine1}
-        <span className="block text-pink-strong">{step.titleLine2}</span>
+        <span className="block text-pink-strong">
+          {step.titleLine2}
+          {step.titleAccent && <span className="text-success"> {step.titleAccent}</span>}
+        </span>
       </motion.h1>
 
       <motion.p
