@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-  CircleCheckBig,
+  Check,
   Target,
   Flame,
   Scale,
@@ -163,12 +163,17 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   return (
     <div className="flex flex-1 flex-col gap-8 py-6">
       {/* Header confirmation */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
-        <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-success-light">
-          <CircleCheckBig size={26} className="text-success" />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex items-start gap-2.5"
+      >
+        <span className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-success">
+          <Check size={15} strokeWidth={3.5} className="text-white" />
         </span>
-        <h1 className="text-[22px] font-extrabold leading-tight tracking-tight text-text">
-          Seu treino personalizado de Calistenia Chinesa está pronto
+        <h1 className="text-[20px] font-extrabold leading-snug tracking-tight text-text">
+          Seu treino personalizado de <span className="text-success">Calistenia Chinesa</span> está pronto
         </h1>
       </motion.div>
 
