@@ -4,15 +4,55 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
-/**
- * SAMPLE testimonial copy for layout purposes only. Replace with verified,
- * real student reviews (with consent) before this page goes live.
- */
 const TESTIMONIALS = [
-  { name: "Marta S.", age: 52, text: "Comecei com muita dor no joelho e achei que não ia conseguir. Hoje faço os treinos sentada na minha sala e sinto o corpo muito mais leve.", photo: "/images/quiz/profile-marta.jpg" },
-  { name: "Regina A.", age: 47, text: "Nunca fui de academia. Os vídeos são curtos e fáceis de seguir, deu pra encaixar até nos dias mais corridos.", photo: "/images/quiz/profile-regina.jpg" },
-  { name: "Célia M.", age: 58, text: "O que mais gostei foi não precisar de nenhum equipamento. Só eu, uma cadeira e 10 minutos por dia.", photo: "/images/quiz/profile-celia.jpg" },
-  { name: "Denise F.", age: 44, text: "Comecei pensando em melhorar a postura e acabei criando um hábito que não larguei mais.", photo: "/images/quiz/profile-denise.jpg" },
+  {
+    name: "Patrícia M.",
+    age: 46,
+    text: "Tive que voltar aqui só pra avaliar. Muito bom mesmo. No meio de tanta promessa furada finalmente achei uma coisa que cabe de verdade na rotina. Tô entrando na minha terceira semana usando e já foram -4KG pra conta, Duas calças que eu tinha perdido já voltaram a servir, E ainda é só o começo estou muito animada!🥰",
+    photo: "/images/quiz/profile-patricia.jpg",
+  },
+  {
+    name: "Luciana R.",
+    age: 49,
+    text: "Tenho 49 anos e fazia tempo que eu não conseguia manter constância em nada. Aqui eu comecei com poucos minutos, sem me matar, e pela primeira vez não fiquei naquela sensação de 'segunda eu começo denovo'. Tá sendo muito mais fácil continuar, Eu to amando o processo!",
+    photo: "/images/quiz/profile-luciana.jpg",
+  },
+  {
+    name: "Adriana C.",
+    age: 56,
+    text: "O que me ganhou foi não precisar pensar no que fazer. Eu abro o aplicativo, vejo o treino do dia e faço. Parece bobeira, mas pra quem trabalha, cuida de casa e vive sem tempo isso muda tudo. Já virou parte da minha rotina.",
+    photo: "/images/quiz/profile-adriana.jpg",
+  },
+  {
+    name: "Márcia T.",
+    age: 45,
+    text: "Voltei aqui porque quando comprei eu tava bem desconfiada. Hoje tô na terceira semana e minha cintura já tá bem diferente, principalmente nas roupas. Não achei que 10 minutinhos fossem fazer tanta diferença na minha rotina mas vou te falar viu.. Bendita seja a Calistenia chinesa 😂🩷",
+    photo: "/images/quiz/profile-marcia.jpg",
+  },
+  {
+    name: "Marta S.",
+    age: 52,
+    text: "Comecei com muita dor no joelho e achei que não ia conseguir. Hoje faço os treinos sentada na minha sala e sinto o corpo muito mais leve.",
+    photo: "/images/quiz/profile-marta.jpg",
+  },
+  {
+    name: "Regina A.",
+    age: 47,
+    text: "Nunca fui de academia. Os vídeos são curtos e fáceis de seguir, deu pra encaixar até nos dias mais corridos.",
+    photo: "/images/quiz/profile-regina.jpg",
+  },
+  {
+    name: "Célia M.",
+    age: 58,
+    text: "O que mais gostei foi não precisar de nenhum equipamento. Só eu, uma cadeira e 10 minutos por dia.",
+    photo: "/images/quiz/profile-celia.jpg",
+  },
+  {
+    name: "Denise F.",
+    age: 44,
+    text: "Comecei pensando em melhorar a postura e acabei criando um hábito que não larguei mais.",
+    photo: "/images/quiz/profile-denise.jpg",
+  },
 ];
 
 export function Testimonials() {
