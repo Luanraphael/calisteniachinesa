@@ -65,6 +65,15 @@ export const quizSteps: QuizStep[] = [
     id: "goal",
     type: "choice",
     imageList: true,
+    image: {
+      key: "goal-hero-emblem",
+      variant: "natural",
+      alt: "Ícone de alvo representando o objetivo do treino",
+      src: `${P}/goal-hero-emblem.png`,
+      naturalWidth: 1341,
+      naturalHeight: 702,
+    },
+    imageAboveHeadline: true,
     headline: "Qual objetivo é mais importante **pra você agora**?",
     answerKey: "goal",
     options: [
@@ -421,6 +430,27 @@ export const quizSteps: QuizStep[] = [
     unit: "kg",
     ctaLabel: "Próximo passo",
   },
+  // 28b — Lead's name
+  {
+    id: "leadName",
+    type: "textInput",
+    headline: "Como podemos te chamar?",
+    subheadline: "Vamos usar seu nome para personalizar seu treino.",
+    answerKey: "leadName",
+    placeholder: "Digite seu nome",
+    ctaLabel: "Continuar",
+  },
+  // 28c — Lead's age
+  {
+    id: "leadAge",
+    type: "textInput",
+    headline: "Qual é a sua idade?",
+    answerKey: "leadAge",
+    placeholder: "Digite sua idade",
+    inputMode: "numeric",
+    maxLength: 2,
+    ctaLabel: "Continuar",
+  },
   // 29 — Desired body (6 options, image grid)
   {
     id: "desiredBody",
@@ -550,7 +580,14 @@ export const quizSteps: QuizStep[] = [
   {
     id: "appExplainer",
     type: "info",
-    image: img("app-mockup", "mockup", "Três telas do aplicativo mostrando as aulas em vídeo", `${P}/app-mockup.png`),
+    image: {
+      key: "app-mockup",
+      variant: "natural",
+      alt: "Três telas do aplicativo mostrando as aulas em vídeo",
+      src: `${P}/app-mockup.png`,
+      naturalWidth: 1448,
+      naturalHeight: 1086,
+    },
     imagePosition: "middle",
     headline: "Criamos um **caminho simples** para você praticar calistenia",
     preBullets: [

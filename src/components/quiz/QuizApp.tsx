@@ -10,6 +10,7 @@ import { ChoiceScreen } from "./screens/ChoiceScreen";
 import { BenefitsScreen } from "./screens/BenefitsScreen";
 import { RoadmapScreen } from "./screens/RoadmapScreen";
 import { SliderScreen } from "./screens/SliderScreen";
+import { TextInputScreen } from "./screens/TextInputScreen";
 import { LoadingScreen } from "./screens/LoadingScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
 import { ChartScreen } from "./screens/ChartScreen";
@@ -76,6 +77,15 @@ export function QuizApp() {
           <SliderScreen
             step={step}
             currentValue={answers[step.answerKey] as number | undefined}
+            onChange={(value) => setAnswer(step.answerKey, value)}
+            onContinue={goNext}
+          />
+        );
+      case "textInput":
+        return (
+          <TextInputScreen
+            step={step}
+            currentValue={answers[step.answerKey] as string | undefined}
             onChange={(value) => setAnswer(step.answerKey, value)}
             onContinue={goNext}
           />

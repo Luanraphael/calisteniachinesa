@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import type { ImageSlot } from "@/lib/quizTypes";
 
-const ASPECT: Record<ImageSlot["variant"], string> = {
+const ASPECT: Partial<Record<ImageSlot["variant"], string>> = {
   full: "aspect-[4/3]",
   side: "aspect-[3/4]",
   mockup: "aspect-[16/10]",
@@ -12,7 +12,7 @@ const ASPECT: Record<ImageSlot["variant"], string> = {
   portrait: "aspect-[4/5]",
 };
 
-const SIZES: Record<ImageSlot["variant"], string> = {
+const SIZES: Partial<Record<ImageSlot["variant"], string>> = {
   full: "(max-width: 520px) 100vw, 480px",
   side: "(max-width: 520px) 45vw, 220px",
   mockup: "(max-width: 520px) 100vw, 480px",
@@ -21,7 +21,7 @@ const SIZES: Record<ImageSlot["variant"], string> = {
 };
 
 /** Full-body cutouts (side/mockup/portrait) must never crop hands, feet, head or hair. */
-const FIT: Record<ImageSlot["variant"], "cover" | "contain"> = {
+const FIT: Partial<Record<ImageSlot["variant"], "cover" | "contain">> = {
   full: "cover",
   side: "contain",
   mockup: "contain",
@@ -31,6 +31,21 @@ const FIT: Record<ImageSlot["variant"], "cover" | "contain"> = {
 
 export function ImagePlaceholder({ slot, className, priority }: { slot: ImageSlot; className?: string; priority?: boolean }) {
   if (slot.src) {
+    // Renders the asset exactly as provided — no forced aspect ratio, no background
+    // fill behind letterboxed edges, no rounded-corner frame.
+    if (slot.variant === "natural") {
+      return (
+        <Image
+          src={slot.src}
+          alt={slot.alt}
+          width={slot.naturalWidth ?? 1000}
+          height={slot.naturalHeight ?? 1000}
+          className={`h-auto w-full ${className ?? ""}`}
+          priority={priority}
+        />
+      );
+    }
+
     return (
       <div className={`relative w-full overflow-hidden rounded-2xl bg-[#faf6f8] ${ASPECT[slot.variant]} ${className ?? ""}`}>
         <Image

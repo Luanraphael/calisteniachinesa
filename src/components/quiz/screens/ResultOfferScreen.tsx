@@ -135,6 +135,8 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   const current = Number(answers.currentWeightKg ?? 68);
   const target = Number(answers.targetWeightKg ?? 60);
   const time = timePerDayInfo(answers);
+  const leadName = typeof answers.leadName === "string" ? answers.leadName.trim() : "";
+  const leadAge = typeof answers.leadAge === "string" ? answers.leadAge.trim() : "";
 
   function goToCheckout(planId: string) {
     const target = PLANS.find((p) => p.id === planId) ?? PLANS[1];
@@ -172,8 +174,13 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <span className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-success">
           <Check size={15} strokeWidth={3.5} className="text-white" />
         </span>
-        <h1 className="text-[20px] font-extrabold leading-snug tracking-tight text-text">
-          Seu treino personalizado de <span className="text-success">Calistenia Chinesa</span> está pronto
+        <h1
+          className="text-[24px] font-black leading-[1.2] tracking-tight text-text"
+          style={{ fontFamily: "var(--font-poppins)" }}
+        >
+          <span className="text-danger">Parabéns</span>
+          {leadName ? `, ${leadName}` : ""}! Seu treino personalizado de{" "}
+          <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
         </h1>
       </motion.div>
 
@@ -185,27 +192,50 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <FullImage src="/images/quiz/offer-hero-back.png" alt="Mulher pronta para começar seu treino de Calistenia Chinesa, vista de costas" />
       </motion.div>
 
-      {/* Profile summary — Objetivo gets its own full-width premium list since it can
-          hold several lines; Intensidade/Peso/Meta stay compact single-value cards. */}
+      {/* Profile summary — Nome/Idade sit to the left of the Objetivo list, split by a
+          soft-faded divider; Intensidade/Peso/Meta stay compact single-value cards. */}
       <div className="flex flex-col gap-3">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.35 }}
-          className="rounded-2xl border border-border bg-surface p-4"
+          className="grid grid-cols-[minmax(72px,auto)_1px_1fr] gap-4 rounded-2xl border border-border bg-surface p-4"
         >
-          <div className="flex items-center gap-1.5">
-            <Target size={16} className="text-pink-strong" />
-            <p className="text-[11.5px] font-semibold text-text-secondary">Objetivo</p>
+          <div className="flex flex-col justify-center gap-3">
+            {leadName && (
+              <div>
+                <p className="text-[10.5px] font-semibold text-text-secondary">Nome</p>
+                <p className="break-words text-[14px] font-extrabold leading-snug text-text">{leadName}</p>
+              </div>
+            )}
+            {leadAge && (
+              <div>
+                <p className="text-[10.5px] font-semibold text-text-secondary">Idade</p>
+                <p className="text-[14px] font-extrabold leading-snug text-text">{leadAge} anos</p>
+              </div>
+            )}
           </div>
-          <ul className="mt-2.5 flex flex-col gap-1.5">
-            {offerObjectiveLines(answers).map((line) => (
-              <li key={line} className="flex items-start gap-2">
-                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-pink-strong" aria-hidden />
-                <span className="text-[14px] font-extrabold leading-snug text-text">{line}</span>
-              </li>
-            ))}
-          </ul>
+
+          <div
+            className="self-stretch"
+            style={{ background: "linear-gradient(to bottom, transparent, var(--color-border-strong), transparent)" }}
+            aria-hidden
+          />
+
+          <div>
+            <div className="flex items-center gap-1.5">
+              <Target size={16} className="text-pink-strong" />
+              <p className="text-[11.5px] font-semibold text-text-secondary">Objetivo</p>
+            </div>
+            <ul className="mt-2.5 flex flex-col gap-1.5">
+              {offerObjectiveLines(answers).map((line) => (
+                <li key={line} className="flex items-start gap-2">
+                  <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-pink-strong" aria-hidden />
+                  <span className="text-[14px] font-extrabold leading-snug text-text">{line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-3 gap-3">

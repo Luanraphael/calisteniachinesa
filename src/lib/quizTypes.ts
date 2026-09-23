@@ -5,11 +5,17 @@ export type Answers = Record<string, string | string[] | number | undefined>;
 export interface ImageSlot {
   /** Stable identifier so the asset can be swapped later; also used as placeholder fallback. */
   key: string;
-  /** Layout treatment. */
-  variant: "full" | "side" | "mockup" | "circle" | "portrait";
+  /** Layout treatment. "natural" renders the asset at its own aspect ratio with no
+   * crop, background fill, or rounded frame — for images that must appear exactly
+   * as provided (e.g. an app mockup graphic that already has its own composition). */
+  variant: "full" | "side" | "mockup" | "circle" | "portrait" | "natural";
   alt: string;
   /** Real asset path under /public. When absent, an elegant placeholder renders instead. */
   src?: string;
+  /** Required for "natural" — the asset's real pixel size, so next/image can size it
+   * without a `fill` wrapper (which is what forced the mismatched-aspect background). */
+  naturalWidth?: number;
+  naturalHeight?: number;
 }
 
 export interface ChoiceOption {
@@ -139,6 +145,17 @@ export interface SliderStep extends BaseStep {
   ctaLabel: string;
 }
 
+export interface TextInputStep extends BaseStep {
+  type: "textInput";
+  headline: string;
+  subheadline?: string;
+  answerKey: string;
+  placeholder: string;
+  inputMode?: "text" | "numeric";
+  maxLength?: number;
+  ctaLabel: string;
+}
+
 export interface LoadingStep extends BaseStep {
   type: "loading";
   /** donut = circular ring (mid-quiz saves); sequential = 4 stacked bars filling one-by-one (final analysis). */
@@ -178,6 +195,7 @@ export type QuizStep =
   | BenefitsStep
   | RoadmapStep
   | SliderStep
+  | TextInputStep
   | LoadingStep
   | ProfileStep
   | ChartStep
