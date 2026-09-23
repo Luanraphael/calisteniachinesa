@@ -9,7 +9,6 @@ import {
   Flame,
   Scale,
   Gauge,
-  ShieldCheck,
   Star,
   Clock,
 } from "lucide-react";
@@ -127,6 +126,7 @@ function PlanSectionHeadline() {
 
 export function ResultOfferScreen({ answers }: { answers: Answers }) {
   const planSectionRef = useRef<HTMLDivElement>(null);
+  const finalPlanSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     trackQuizEvent("quiz_result_viewed", { step_id: "offer" });
@@ -152,6 +152,12 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   // which one the lead clicks elsewhere, per the offer's pricing strategy.
   function handleGuaranteeCheckoutClick() {
     goToCheckout("3m");
+  }
+
+  // The "turma de setembro" banner's button is an in-page anchor, not a checkout link —
+  // it scrolls down to the final plan/CTA section rather than booking a plan itself.
+  function scrollToFinalPlans() {
+    finalPlanSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   return (
@@ -248,16 +254,12 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         </motion.div>
       </div>
 
-      {/* Countdown + plans */}
+      {/* Plans — the countdown sits after the plan buttons (Plano Anual's included),
+          not before them, so it reads as "act now" rather than a gate to get past. */}
       <div ref={planSectionRef} className="flex flex-col gap-4">
-        <Countdown initialSeconds={900} />
         <PlanSectionHeadline />
         <PlanSelector onCta={goToCheckout} />
-
-        <div className="flex items-center justify-center gap-2 text-center text-[11.5px] text-text-tertiary">
-          <ShieldCheck size={14} className="text-success" />
-          Garantia de 30 dias — devolução de 100% do valor pago
-        </div>
+        <Countdown initialSeconds={900} />
       </div>
 
       {/* Before / after */}
@@ -392,11 +394,45 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         </motion.div>
       </div>
 
-      {/* Plans repeated — the page's last main CTA before the guarantee/FAQ close-out */}
+      {/* Plans repeated — the CTA right after the bonuses */}
       <div className="flex flex-col gap-4">
         <PlanSectionHeadline />
         <PlanSelector onCta={goToCheckout} />
       </div>
+
+      {/* Urgency banner */}
+      <div className="overflow-hidden rounded-2xl bg-[#faf6f8]">
+        <Image
+          src="/images/quiz/offer-urgency-banner.png"
+          alt="Últimas 6 vagas para a turma de setembro — venha se juntar a nós agora"
+          width={1672}
+          height={941}
+          className="h-auto w-full"
+          sizes="(max-width: 520px) 100vw, 480px"
+        />
+      </div>
+
+      {/* Green urgency callout + anchor button down to the final plan section */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-20px" }}
+        transition={{ duration: 0.4 }}
+        className="flex flex-col gap-4 rounded-2xl border px-5 py-5"
+        style={{ background: "var(--color-success-light)", borderColor: "#bfe6cb" }}
+      >
+        <p className="text-[14.5px] font-medium leading-[1.65] text-[#1c6b4c]">
+          Restam apenas 6 vagas nesta turma.
+          <br />
+          Garanta a sua agora e receba imediatamente seu plano de treino + acesso ao aplicativo + Todos os bônus
+          exclusivos.
+        </p>
+        <CTAButton
+          label="👉 QUERO ENTRAR PARA A TURMA DE SETEMBRO"
+          onClick={scrollToFinalPlans}
+          showArrow={false}
+        />
+      </motion.div>
 
       {/* Guarantee */}
       <motion.div
@@ -428,6 +464,13 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           className="mt-1"
         />
       </motion.div>
+
+      {/* Final plans — the page's last CTA before the FAQ close-out, and the anchor
+          button's scroll target */}
+      <div ref={finalPlanSectionRef} className="flex flex-col gap-4">
+        <PlanSectionHeadline />
+        <PlanSelector onCta={goToCheckout} />
+      </div>
 
       {/* FAQ */}
       <div>

@@ -12,7 +12,7 @@ export interface Plan {
   ctaLabel: string;
   checkoutUrl: string;
   badge?: string;
-  badgeTone?: "pink" | "yellow";
+  badgeEmoji?: string;
 }
 
 export const PLANS: Plan[] = [
@@ -34,7 +34,7 @@ export const PLANS: Plan[] = [
     ctaLabel: "Quero o plano de 3 Meses",
     checkoutUrl: "https://payfast.greenn.com.br/redirect/320658",
     badge: "MELHOR OFERTA PARA VOCÊ",
-    badgeTone: "pink",
+    badgeEmoji: "⭐",
   },
   {
     id: "12m",
@@ -45,19 +45,9 @@ export const PLANS: Plan[] = [
     ctaLabel: "Quero o plano ANUAL",
     checkoutUrl: "https://payfast.greenn.com.br/redirect/320661",
     badge: "Para nunca mais voltar ao peso atual",
-    badgeTone: "yellow",
+    badgeEmoji: "🔥",
   },
 ];
-
-const BORDER_TONE: Record<string, string> = {
-  pink: "border-pink-strong",
-  yellow: "border-callout-border",
-};
-
-const BANNER_TONE: Record<string, string> = {
-  pink: "bg-pink-strong text-white",
-  yellow: "bg-callout-border text-callout-text",
-};
 
 export function PlanSelector({ onCta }: { onCta: (planId: string) => void }) {
   return (
@@ -76,18 +66,12 @@ export function PlanSelector({ onCta }: { onCta: (planId: string) => void }) {
         >
           <div
             className={`overflow-hidden rounded-2xl border-2 bg-surface ${
-              p.badge ? BORDER_TONE[p.badgeTone ?? "pink"] : "border-border"
+              p.badge ? "border-pink-strong" : "border-border"
             }`}
           >
             {p.badge && (
-              <div
-                className={`px-3 py-2 text-center text-[11px] font-extrabold uppercase tracking-wide ${
-                  BANNER_TONE[p.badgeTone ?? "pink"]
-                }`}
-              >
-                {p.badgeTone === "yellow" ? "🔥 " : "⭐ "}
-                {p.badge}
-                {p.badgeTone === "yellow" ? "" : " ⭐"}
+              <div className="bg-pink-strong px-3 py-2 text-center text-[11px] font-extrabold uppercase tracking-wide text-white">
+                {p.badgeEmoji} {p.badge} {p.badgeEmoji}
               </div>
             )}
             <div className="flex items-center justify-between gap-3 px-4 py-4">
