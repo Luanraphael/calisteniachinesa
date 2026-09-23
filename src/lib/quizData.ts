@@ -434,8 +434,7 @@ export const quizSteps: QuizStep[] = [
   {
     id: "leadName",
     type: "textInput",
-    headline: "Como podemos te chamar?",
-    subheadline: "Vamos usar seu nome para personalizar seu treino.",
+    headline: "Qual é o seu nome?",
     answerKey: "leadName",
     placeholder: "Digite seu nome",
     ctaLabel: "Continuar",
