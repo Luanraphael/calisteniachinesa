@@ -12,6 +12,7 @@ interface CTAButtonProps {
   disabled?: boolean;
   className?: string;
   type?: "button" | "submit";
+  pulse?: boolean;
 }
 
 export function CTAButton({
@@ -22,6 +23,7 @@ export function CTAButton({
   disabled,
   className,
   type = "button",
+  pulse = false,
 }: CTAButtonProps) {
   const base =
     "w-full select-none rounded-2xl px-6 py-4 text-[15px] font-bold tracking-tight transition-transform active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2";
@@ -37,6 +39,8 @@ export function CTAButton({
   return (
     <motion.button
       whileTap={{ scale: 0.97 }}
+      animate={pulse && !disabled ? { scale: [1, 1.035, 1] } : undefined}
+      transition={pulse && !disabled ? { duration: 1.7, repeat: Infinity, ease: "easeInOut" } : undefined}
       type={type}
       disabled={disabled}
       onClick={() => {

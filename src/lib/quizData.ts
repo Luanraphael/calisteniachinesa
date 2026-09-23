@@ -533,7 +533,7 @@ export const quizSteps: QuizStep[] = [
       "Ajustando o nível de intensidade",
       "Criando seu treino personalizado",
     ],
-    durationMs: 7600,
+    durationMs: 9600,
     showSocialProof: true,
     testimonials: [
       { src: `${P}/loading-testimonial-1.jpg`, alt: "Depoimento de aluna — antes e depois" },
@@ -672,12 +672,15 @@ export function ageRangeLabel(a: Answers): string {
   return map[(a.ageRange as string) ?? "40-49"] ?? "40 e 49 anos";
 }
 
-export function durationLabel(a: Answers): string {
-  const map: Record<string, string> = {
-    "7": "7 minutos por dia",
-    "14": "14 minutos por dia",
-    "21": "21 minutos por dia",
-    decide: "No tempo ideal pra você",
-  };
-  return map[(a.duration as string) ?? "decide"] ?? "No tempo ideal pra você";
+/**
+ * The offer page's "Tempo por dia" block needs the raw minute count (to render big and
+ * bold) plus whether it was the lead's explicit pick or our recommendation for her — the
+ * two render very differently (a plain "X minutos por dia" vs. a personalized sentence).
+ */
+export function timePerDayInfo(a: Answers): { minutes: string; isRecommended: boolean } {
+  const raw = (a.duration as string) ?? "decide";
+  if (raw === "decide" || !["7", "14", "21"].includes(raw)) {
+    return { minutes: "14", isRecommended: true };
+  }
+  return { minutes: raw, isRecommended: false };
 }

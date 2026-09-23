@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
 import { CTAButton } from "../CTAButton";
 
 export interface Plan {
@@ -9,10 +8,11 @@ export interface Plan {
   name: string;
   originalPrice: string;
   price: string;
-  perDay: string;
+  perDayValue: string;
+  ctaLabel: string;
   checkoutUrl: string;
   badge?: string;
-  highlight?: boolean;
+  badgeTone?: "pink" | "yellow";
 }
 
 export const PLANS: Plan[] = [
@@ -21,7 +21,8 @@ export const PLANS: Plan[] = [
     name: "Plano de 1 mês",
     originalPrice: "R$ 97,00",
     price: "R$ 27,00",
-    perDay: "R$ 0,90 por dia",
+    perDayValue: "R$ 0,90",
+    ctaLabel: "Quero o plano de 1 Mês",
     checkoutUrl: "https://payfast.greenn.com.br/redirect/320659",
   },
   {
@@ -29,78 +30,95 @@ export const PLANS: Plan[] = [
     name: "Plano de 3 meses",
     originalPrice: "R$ 267,00",
     price: "R$ 47,00",
-    perDay: "R$ 0,52 por dia",
-    badge: "MELHOR OFERTA PARA VOCÊ",
-    highlight: true,
+    perDayValue: "R$ 0,52",
+    ctaLabel: "Quero o plano de 3 Meses",
     checkoutUrl: "https://payfast.greenn.com.br/redirect/320658",
+    badge: "MELHOR OFERTA PARA VOCÊ",
+    badgeTone: "pink",
   },
   {
     id: "12m",
     name: "Plano Anual",
     originalPrice: "R$ 897,00",
     price: "R$ 67,00",
-    perDay: "R$ 0,18 por dia",
+    perDayValue: "R$ 0,18",
+    ctaLabel: "Quero o plano ANUAL",
     checkoutUrl: "https://payfast.greenn.com.br/redirect/320661",
+    badge: "Para nunca mais voltar ao peso atual",
+    badgeTone: "yellow",
   },
 ];
 
-export function PlanSelector({
-  selected,
-  onSelect,
-  onCta,
-}: {
-  selected: string;
-  onSelect: (id: string) => void;
-  onCta: () => void;
-}) {
-  const plan = PLANS.find((p) => p.id === selected) ?? PLANS[1];
+const BORDER_TONE: Record<string, string> = {
+  pink: "border-pink-strong",
+  yellow: "border-callout-border",
+};
 
+const BANNER_TONE: Record<string, string> = {
+  pink: "bg-pink-strong text-white",
+  yellow: "bg-callout-border text-callout-text",
+};
+
+export function PlanSelector({ onCta }: { onCta: (planId: string) => void }) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-5">
       <p className="text-center text-[12px] font-semibold text-text-tertiary">
-        Não é assinatura — você paga somente uma vez
+        Não é assinatura, você paga somente uma vez
       </p>
-      {PLANS.map((p) => {
-        const isSelected = p.id === selected;
-        return (
-          <motion.button
-            key={p.id}
-            type="button"
-            onClick={() => onSelect(p.id)}
-            whileTap={{ scale: 0.98 }}
-            className={`relative flex items-center justify-between rounded-2xl border-2 px-4 py-4 text-left transition-colors ${
-              isSelected ? "border-pink bg-pink-mist" : "border-border bg-surface"
+      {PLANS.map((p, i) => (
+        <motion.div
+          key={p.id}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ delay: i * 0.06, duration: 0.35 }}
+          className="flex flex-col gap-3"
+        >
+          <div
+            className={`overflow-hidden rounded-2xl border-2 bg-surface ${
+              p.badge ? BORDER_TONE[p.badgeTone ?? "pink"] : "border-border"
             }`}
           >
             {p.badge && (
-              <span className="absolute -top-3 left-4 rounded-full bg-pink-strong px-3 py-1 text-[10px] font-extrabold tracking-wide text-white shadow-sm">
-                {p.badge}
-              </span>
-            )}
-            <div className="flex items-center gap-3">
-              <span
-                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${
-                  isSelected ? "border-pink bg-pink" : "border-border-strong"
+              <div
+                className={`px-3 py-2 text-center text-[11px] font-extrabold uppercase tracking-wide ${
+                  BANNER_TONE[p.badgeTone ?? "pink"]
                 }`}
               >
-                {isSelected && <Check size={13} strokeWidth={3} className="text-white" />}
-              </span>
-              <div>
-                <p className="text-[14.5px] font-extrabold text-text">{p.name}</p>
-                <p className="text-[12px] text-text-tertiary">
-                  De <span className="line-through">{p.originalPrice}</span>
-                </p>
+                {p.badgeTone === "yellow" ? "🔥 " : "⭐ "}
+                {p.badge}
+                {p.badgeTone === "yellow" ? "" : " ⭐"}
+              </div>
+            )}
+            <div className="flex items-center justify-between gap-3 px-4 py-4">
+              <div className="flex items-center gap-3">
+                <span className="h-5 w-5 shrink-0 rounded-full border-2 border-border-strong" aria-hidden />
+                <div>
+                  <p className="text-[15px] font-extrabold text-text">{p.name}</p>
+                  <p className="text-[12.5px] text-text-tertiary">
+                    De <span className="font-semibold text-danger line-through">{p.originalPrice}</span>
+                  </p>
+                  <p className="text-[14px] font-bold text-text">
+                    Por <span className="text-success">{p.price}</span>
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 rounded-xl bg-pink-mist px-3 py-2 text-center">
+                <p className="text-[9px] font-semibold uppercase tracking-wide text-text-tertiary">apenas</p>
+                <p className="text-[15px] font-extrabold leading-tight text-text">{p.perDayValue}</p>
+                <p className="text-[9px] font-semibold text-text-tertiary">por dia</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-[17px] font-extrabold text-pink-strong">{p.price}</p>
-              <p className="text-[11px] text-text-tertiary">{p.perDay}</p>
-            </div>
-          </motion.button>
-        );
-      })}
+          </div>
 
-      <CTAButton label={`Quero o ${plan.name.toLowerCase()}`} onClick={onCta} className="mt-1" />
+          <CTAButton
+            label={`👉 ${p.ctaLabel}`}
+            onClick={() => onCta(p.id)}
+            showArrow={false}
+            pulse
+          />
+        </motion.div>
+      ))}
     </div>
   );
 }

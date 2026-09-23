@@ -83,6 +83,7 @@ function SequentialLoading({
   const tasks = step.tasks ?? ["Analisando suas respostas"];
   const barRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [livePercent, setLivePercent] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ function SequentialLoading({
     const bar = barRefs.current[activeIndex];
     if (!bar) return;
 
+    setLivePercent(0);
     let rafId = 0;
     let cancelled = false;
     const startTime = performance.now();
@@ -116,6 +118,7 @@ function SequentialLoading({
       const elapsed = now - startTime;
       const pct = Math.min(elapsed / perBarMs, 1);
       bar!.style.transform = `scaleX(${pct})`;
+      setLivePercent(Math.round(pct * 100));
 
       if (pct < 1) {
         rafId = requestAnimationFrame(frame);
@@ -156,7 +159,11 @@ function SequentialLoading({
             className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between text-[12.5px] font-bold">
               <span className={i <= activeIndex ? "text-text-secondary" : "text-ink-faint"}>{task}</span>
-              {i < activeIndex && <span className="text-success-strong">✓</span>}
+              {i < activeIndex ? (
+                <span className="tabular-nums text-success-strong">✓ 100%</span>
+              ) : (
+                <span className="tabular-nums text-pink-strong">{livePercent}%</span>
+              )}
             </div>
             <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-pink-light">
               <div className="absolute inset-0 rounded-full bg-white/40" />
