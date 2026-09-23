@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -8,14 +8,6 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
-});
-
-// Only used for the offer hero headline, which needs extra visual weight —
-// the rest of the app keeps Plus Jakarta Sans as its base typeface.
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +26,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${jakarta.variable} ${poppins.variable} h-full antialiased`}>
+    <html lang="pt-BR" className={`${jakarta.variable} h-full antialiased`}>
       <head>
         {/* Meta Pixel Code */}
         <Script

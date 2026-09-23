@@ -174,11 +174,8 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <span className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-success">
           <Check size={15} strokeWidth={3.5} className="text-white" />
         </span>
-        <h1
-          className="text-[24px] font-black leading-[1.2] tracking-tight text-text"
-          style={{ fontFamily: "var(--font-poppins)" }}
-        >
-          <span className="text-danger">Parabéns</span>
+        <h1 className="text-[26px] font-extrabold leading-[1.1] tracking-tight text-text">
+          <span className="text-success">Parabéns</span>
           {leadName ? `, ${leadName}` : ""}! Seu treino personalizado de{" "}
           <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
         </h1>
