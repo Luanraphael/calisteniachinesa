@@ -31,29 +31,21 @@ export function BenefitsScreen({ step, onContinue }: { step: BenefitsStep; onCon
       </div>
 
       <div className="flex flex-col gap-3">
-        {step.items.map((item, i) => {
-          const Icon = item.icon;
-          return (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.16 + i * 0.07 }}
-              className="flex items-start gap-3.5 rounded-2xl border border-border bg-surface p-4 shadow-sm"
-            >
-              <span
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                style={{ background: item.bg, color: item.color }}
-              >
-                <Icon size={21} strokeWidth={2.1} />
-              </span>
-              <div>
-                <p className="text-[14.5px] font-extrabold uppercase tracking-tight text-text">{item.title}</p>
-                <p className="mt-0.5 text-[13.5px] leading-snug text-text-secondary">{item.text}</p>
-              </div>
-            </motion.div>
-          );
-        })}
+        {step.items.map((item, i) => (
+          <motion.div
+            key={item.title}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.16 + i * 0.07 }}
+            className="flex items-start gap-2.5 rounded-2xl px-4 py-3.5"
+            style={{ background: item.bg }}
+          >
+            <span className="mt-[6px] h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: item.color }} aria-hidden />
+            <p className="text-[14px] leading-snug text-text">
+              <span className="font-extrabold">{item.title}</span> {item.text}
+            </p>
+          </motion.div>
+        ))}
       </div>
 
       <ScreenFooter>
