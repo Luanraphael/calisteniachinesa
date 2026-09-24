@@ -12,7 +12,6 @@ import {
   Star,
   Clock,
 } from "lucide-react";
-import { Countdown } from "../offer/Countdown";
 import { PlanSelector, PLANS } from "../offer/PlanSelector";
 import { Testimonials } from "../offer/Testimonials";
 import { FaqAccordion } from "../offer/FaqAccordion";
@@ -287,7 +286,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
       <div ref={planSectionRef} className="flex flex-col gap-4">
         <PlanSectionHeadline />
         <PlanSelector selected={selectedPlan} onSelect={setSelectedPlan} onCta={handleCheckoutClick} />
-        <Countdown initialSeconds={900} />
       </div>
 
       {/* Before / after */}
@@ -299,6 +297,16 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
       {/* Testimonials — written reviews only, no before/after image proof */}
       <div>
         <SectionTitle eyebrow="Depoimentos" title="Resultados que nos orgulham" />
+        <div className="mb-4 flex flex-col gap-3">
+          {[
+            "/images/quiz/offer-testimonial-6.png",
+            "/images/quiz/offer-testimonial-7.png",
+            "/images/quiz/offer-testimonial-8.png",
+            "/images/quiz/offer-testimonial-9.png",
+          ].map((src) => (
+            <FullImage key={src} src={src} alt="Depoimento real de aluna do programa, antes e depois" />
+          ))}
+        </div>
         <Testimonials />
       </div>
 

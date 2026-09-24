@@ -453,6 +453,10 @@ export const quizSteps: QuizStep[] = [
     placeholder: "Digite sua idade",
     inputMode: "numeric",
     maxLength: 2,
+    infoBlock: {
+      title: "Perguntamos sua idade para personalizar seu plano",
+      text: "As pessoas mais velhas têm um percentual de gordura corporal mais alto do que as pessoas mais jovens com o mesmo IMC.",
+    },
     ctaLabel: "Continuar",
   },
   // 29 — Desired body (6 options, image grid)

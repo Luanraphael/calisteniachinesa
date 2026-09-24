@@ -153,6 +153,8 @@ export interface TextInputStep extends BaseStep {
   placeholder: string;
   inputMode?: "text" | "numeric";
   maxLength?: number;
+  /** Small, low-key supporting note rendered under the input — not a warning. */
+  infoBlock?: { title: string; text: string };
   ctaLabel: string;
 }
 
