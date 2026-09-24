@@ -171,7 +171,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           className="text-[27px] font-extrabold text-text"
           style={{ fontFamily: "var(--font-poppins)", lineHeight: 1.02, letterSpacing: "-0.03em" }}
         >
-          <span className="text-danger">
+          <span className="text-success">
             Parabéns{leadName ? `, ${leadName}` : ""}!
           </span>{" "}
           Seu treino personalizado de <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
