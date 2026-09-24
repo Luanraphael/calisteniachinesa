@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -125,8 +125,8 @@ function PlanSectionHeadline() {
 }
 
 export function ResultOfferScreen({ answers }: { answers: Answers }) {
+  const [selectedPlan, setSelectedPlan] = useState("3m");
   const planSectionRef = useRef<HTMLDivElement>(null);
-  const finalPlanSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     trackQuizEvent("quiz_result_viewed", { step_id: "offer" });
@@ -137,6 +137,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   const time = timePerDayInfo(answers);
   const leadName = typeof answers.leadName === "string" ? answers.leadName.trim() : "";
   const leadAge = typeof answers.leadAge === "string" ? answers.leadAge.trim() : "";
+  const plan = PLANS.find((p) => p.id === selectedPlan) ?? PLANS[1];
 
   function goToCheckout(planId: string) {
     const target = PLANS.find((p) => p.id === planId) ?? PLANS[1];
@@ -144,22 +145,14 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
     window.location.href = withCurrentSearchParams(target.checkoutUrl);
   }
 
-  // No plan comes pre-selected, so the persistent sticky CTA can't assume one on the
-  // lead's behalf either — it just guides her down to the three explicit plan buttons.
-  function scrollToPlans() {
-    planSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  function handleCheckoutClick() {
+    goToCheckout(selectedPlan);
   }
 
   // The guarantee section's CTA always books the 3-month plan regardless of
   // which one the lead clicks elsewhere, per the offer's pricing strategy.
   function handleGuaranteeCheckoutClick() {
     goToCheckout("3m");
-  }
-
-  // The "turma de setembro" banner's button is an in-page anchor, not a checkout link —
-  // it scrolls down to the final plan/CTA section rather than booking a plan itself.
-  function scrollToFinalPlans() {
-    finalPlanSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   return (
@@ -174,10 +167,14 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <span className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-success">
           <Check size={15} strokeWidth={3.5} className="text-white" />
         </span>
-        <h1 className="text-[26px] font-extrabold leading-[1.1] tracking-tight text-text">
-          <span className="text-success">Parabéns</span>
-          {leadName ? `, ${leadName}` : ""}! Seu treino personalizado de{" "}
-          <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
+        <h1
+          className="text-[27px] font-extrabold text-text"
+          style={{ fontFamily: "var(--font-poppins)", lineHeight: 1.02, letterSpacing: "-0.03em" }}
+        >
+          <span className="text-danger">
+            Parabéns{leadName ? `, ${leadName}` : ""}!
+          </span>{" "}
+          Seu treino personalizado de <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
         </h1>
       </motion.div>
 
@@ -286,11 +283,10 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         </motion.div>
       </div>
 
-      {/* Plans — the countdown sits after the plan buttons (Plano Anual's included),
-          not before them, so it reads as "act now" rather than a gate to get past. */}
+      {/* Plans */}
       <div ref={planSectionRef} className="flex flex-col gap-4">
         <PlanSectionHeadline />
-        <PlanSelector onCta={goToCheckout} />
+        <PlanSelector selected={selectedPlan} onSelect={setSelectedPlan} onCta={handleCheckoutClick} />
         <Countdown initialSeconds={900} />
       </div>
 
@@ -429,42 +425,8 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
       {/* Plans repeated — the CTA right after the bonuses */}
       <div className="flex flex-col gap-4">
         <PlanSectionHeadline />
-        <PlanSelector onCta={goToCheckout} />
+        <PlanSelector selected={selectedPlan} onSelect={setSelectedPlan} onCta={handleCheckoutClick} />
       </div>
-
-      {/* Urgency banner */}
-      <div className="overflow-hidden rounded-2xl bg-[#faf6f8]">
-        <Image
-          src="/images/quiz/offer-urgency-banner.png"
-          alt="Últimas 6 vagas para a turma de setembro — venha se juntar a nós agora"
-          width={1672}
-          height={941}
-          className="h-auto w-full"
-          sizes="(max-width: 520px) 100vw, 480px"
-        />
-      </div>
-
-      {/* Green urgency callout + anchor button down to the final plan section */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-20px" }}
-        transition={{ duration: 0.4 }}
-        className="flex flex-col gap-4 rounded-2xl border px-5 py-5"
-        style={{ background: "var(--color-success-light)", borderColor: "#bfe6cb" }}
-      >
-        <p className="text-[14.5px] font-medium leading-[1.65] text-[#1c6b4c]">
-          Restam apenas 6 vagas nesta turma.
-          <br />
-          Garanta a sua agora e receba imediatamente seu plano de treino + acesso ao aplicativo + Todos os bônus
-          exclusivos.
-        </p>
-        <CTAButton
-          label="👉 QUERO ENTRAR PARA A TURMA DE SETEMBRO"
-          onClick={scrollToFinalPlans}
-          showArrow={false}
-        />
-      </motion.div>
 
       {/* Guarantee */}
       <motion.div
@@ -497,13 +459,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         />
       </motion.div>
 
-      {/* Final plans — the page's last CTA before the FAQ close-out, and the anchor
-          button's scroll target */}
-      <div ref={finalPlanSectionRef} className="flex flex-col gap-4">
-        <PlanSectionHeadline />
-        <PlanSelector onCta={goToCheckout} />
-      </div>
-
       {/* FAQ */}
       <div>
         <SectionTitle title="Perguntas frequentes" />
@@ -511,7 +466,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
       </div>
 
       <div className="sticky bottom-0 -mx-5 border-t border-border bg-bg/95 px-5 pb-[max(env(safe-area-inset-bottom),1rem)] pt-3 backdrop-blur-sm">
-        <CTAButton label="Quero começar agora" onClick={scrollToPlans} />
+        <CTAButton label={`Quero o ${plan.name.toLowerCase()}`} onClick={handleCheckoutClick} />
       </div>
     </div>
   );
