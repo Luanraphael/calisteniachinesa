@@ -42,6 +42,7 @@ export const quizSteps: QuizStep[] = [
     id: "landing",
     type: "landing",
     showProgress: false,
+    titleLine1Prefix: "PROGRAMA DE",
     titleLine1: "CALISTENIA CHINESA",
     titleLine2: "PARA MULHERES",
     subheadline: "De acordo com a sua idade",

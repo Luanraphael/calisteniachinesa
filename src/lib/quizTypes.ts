@@ -41,6 +41,8 @@ export interface BaseStep {
 
 export interface LandingStep extends BaseStep {
   type: "landing";
+  /** Rendered in normal weight, right before titleLine1 (e.g. "PROGRAMA DE"). */
+  titleLine1Prefix?: string;
   titleLine1: string;
   titleLine2: string;
   titleAccent?: string;
