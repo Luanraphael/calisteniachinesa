@@ -11,6 +11,10 @@ import { Headline } from "../Headline";
 import { computeBmi } from "@/lib/bmi";
 import type { Answers, ProfileStep } from "@/lib/quizTypes";
 
+function resolve<T>(value: T | ((a: Answers) => T), answers: Answers): T {
+  return typeof value === "function" ? (value as (a: Answers) => T)(answers) : value;
+}
+
 export function ProfileScreen({
   step,
   answers,
@@ -23,6 +27,7 @@ export function ProfileScreen({
   const height = Number(answers.heightCm ?? 162);
   const weight = Number(answers.currentWeightKg ?? 68);
   const bmi = computeBmi(height, weight);
+  const headline = resolve(step.headline, answers);
 
   const energy = "Instável";
   const bmiFormatted = bmi.toFixed(2);
@@ -30,7 +35,7 @@ export function ProfileScreen({
   return (
     <div className="flex flex-1 flex-col gap-5 py-6">
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.38 }}>
-        <Headline size="sm">{step.headline}</Headline>
+        <Headline size="sm">{headline}</Headline>
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }}>

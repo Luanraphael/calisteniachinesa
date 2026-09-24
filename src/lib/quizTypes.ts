@@ -172,7 +172,7 @@ export interface LoadingStep extends BaseStep {
 
 export interface ProfileStep extends BaseStep {
   type: "profile";
-  headline: string;
+  headline: string | ((a: Answers) => string);
   expertImage?: { src: string; alt: string };
   ctaLabel: string;
 }

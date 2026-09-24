@@ -296,22 +296,10 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <FullImage src="/images/quiz/offer-jornada.png" alt="Comparação de resultados antes e depois do programa" />
       </div>
 
-      {/* Testimonials — image proof first, then written reviews */}
+      {/* Testimonials — written reviews only, no before/after image proof */}
       <div>
         <SectionTitle eyebrow="Depoimentos" title="Resultados que nos orgulham" />
-        <div className="flex flex-col gap-3">
-          {[
-            "/images/quiz/offer-testimonial-1.png",
-            "/images/quiz/offer-testimonial-5.webp",
-            "/images/quiz/offer-testimonial-3.jpg",
-            "/images/quiz/offer-testimonial-4.png",
-          ].map((src) => (
-            <FullImage key={src} src={src} alt="Depoimento real de aluna do programa" />
-          ))}
-        </div>
-        <div className="mt-4">
-          <Testimonials />
-        </div>
+        <Testimonials />
       </div>
 
       {/* What you get — built in HTML/CSS for maximum mobile legibility */}
