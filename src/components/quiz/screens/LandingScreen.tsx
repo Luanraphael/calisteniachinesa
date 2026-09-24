@@ -26,7 +26,7 @@ export function LandingScreen({
         transition={{ duration: 0.4 }}
         className="text-[26px] font-extrabold leading-[1.1] tracking-tight text-text"
       >
-        {step.titleLine1Prefix && <span className="font-normal">{step.titleLine1Prefix} </span>}
+        {step.titleLine1Prefix && `${step.titleLine1Prefix} `}
         {step.titleLine1}
         <span className="block text-pink-strong">
           {step.titleLine2}
