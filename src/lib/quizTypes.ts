@@ -49,6 +49,8 @@ export interface LandingStep extends BaseStep {
   subheadline: string;
   image: ImageSlot;
   hint: string;
+  /** Small caption rendered right below the hint (e.g. "De acordo com a sua idade"). */
+  hintCaption?: string;
   options: ChoiceOption[];
   answerKey: string;
 }

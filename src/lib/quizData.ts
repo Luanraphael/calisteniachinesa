@@ -45,9 +45,10 @@ export const quizSteps: QuizStep[] = [
     titleLine1Prefix: "PROGRAMA DE",
     titleLine1: "CALISTENIA CHINESA",
     titleLine2: "PARA MULHERES",
-    subheadline: "De acordo com a sua idade",
+    subheadline: "TESTE DE 1 MINUTO",
     image: img("landing-hero", "full", "Mulher praticando Calistenia Chinesa em uma cadeira", `${P}/landing-hero.png`),
     hint: "Comece agora 👇",
+    hintCaption: "De acordo com a sua idade",
     answerKey: "ageRange",
     options: [
       { id: "30-39", label: "30 ~ 39 anos" },

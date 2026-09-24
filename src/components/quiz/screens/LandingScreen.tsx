@@ -52,15 +52,20 @@ export function LandingScreen({
         <ImagePlaceholder slot={step.image} priority />
       </motion.div>
 
-      <motion.p
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.25 }}
-        className="flex items-center justify-center gap-2 text-[14px] font-bold text-text"
+        className="flex flex-col items-center gap-1"
       >
-        <LiveIndicator />
-        {step.hint}
-      </motion.p>
+        <p className="flex items-center justify-center gap-2 text-[14px] font-bold text-text">
+          <LiveIndicator />
+          {step.hint}
+        </p>
+        {step.hintCaption && (
+          <p className="text-[12.5px] font-semibold text-text-secondary">{step.hintCaption}</p>
+        )}
+      </motion.div>
 
       <div className="grid w-full grid-cols-2 gap-3">
         {step.options.map((opt, i) => (
