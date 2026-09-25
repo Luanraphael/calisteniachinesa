@@ -9,11 +9,6 @@ function img(key: string, variant: ImageSlot["variant"], alt: string, src?: stri
   return { key, variant, alt, src };
 }
 
-/** The lead's first-person-captured name, trimmed — empty string when not yet answered. */
-function leadNameOf(a: Answers): string {
-  return typeof a.leadName === "string" ? a.leadName.trim() : "";
-}
-
 const BIOTYPES: Record<string, { name: string; body: string; image: ImageSlot }> = {
   "gain-easy": {
     name: "Endomorfo",
@@ -437,16 +432,7 @@ export const quizSteps: QuizStep[] = [
     unit: "kg",
     ctaLabel: "Próximo passo",
   },
-  // 28b — Lead's name
-  {
-    id: "leadName",
-    type: "textInput",
-    headline: "Qual é o seu nome?",
-    answerKey: "leadName",
-    placeholder: "Digite seu nome",
-    ctaLabel: "Continuar",
-  },
-  // 28c — Lead's age
+  // 28b — Lead's age
   {
     id: "leadAge",
     type: "textInput",
@@ -466,10 +452,7 @@ export const quizSteps: QuizStep[] = [
     id: "desiredBody",
     type: "choice",
     imageGrid: true,
-    headline: (a: Answers) => {
-      const name = leadNameOf(a);
-      return name ? `E agora, ${name}, qual corpo você **gostaria de ter**?` : "Qual corpo você **gostaria de ter**?";
-    },
+    headline: "Qual corpo você **gostaria de ter**?",
     answerKey: "desiredBody",
     multi: false,
     options: [
@@ -538,12 +521,7 @@ export const quizSteps: QuizStep[] = [
   {
     id: "profile",
     type: "profile",
-    headline: (a: Answers) => {
-      const name = leadNameOf(a);
-      return name
-        ? `Pronto, ${name}. Esse é o seu perfil com base **nas suas respostas**:`
-        : "Seu perfil com base em **suas respostas**:";
-    },
+    headline: "Seu perfil com base em **suas respostas**:",
     expertImage: { src: `${P}/profile-expert.png`, alt: "Mentora do programa" },
     ctaLabel: "Continuar",
   },
@@ -573,12 +551,7 @@ export const quizSteps: QuizStep[] = [
     id: "finalLoading",
     type: "loading",
     variant: "sequential",
-    headline: (a: Answers) => {
-      const name = leadNameOf(a);
-      return name
-        ? `${name}, seu plano personalizado de\nCalistenia Chinesa está sendo criado...`
-        : "Seu plano personalizado de\nCalistenia Chinesa está sendo criado...";
-    },
+    headline: "Seu plano personalizado de\nCalistenia Chinesa está sendo criado...",
     tasks: [
       "Analisando suas respostas",
       "Organizando a sequência das aulas",

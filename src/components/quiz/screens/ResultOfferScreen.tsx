@@ -134,7 +134,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   const current = Number(answers.currentWeightKg ?? 68);
   const target = Number(answers.targetWeightKg ?? 60);
   const time = timePerDayInfo(answers);
-  const leadName = typeof answers.leadName === "string" ? answers.leadName.trim() : "";
   const leadAge = typeof answers.leadAge === "string" ? answers.leadAge.trim() : "";
   const plan = PLANS.find((p) => p.id === selectedPlan) ?? PLANS[1];
 
@@ -170,9 +169,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           className="text-[27px] font-extrabold text-text"
           style={{ fontFamily: "var(--font-poppins)", lineHeight: 1.02, letterSpacing: "-0.03em" }}
         >
-          <span className="text-success">
-            Parabéns{leadName ? `, ${leadName}` : ""}!
-          </span>{" "}
+          <span className="text-success">Parabéns!</span>{" "}
           Seu treino personalizado de <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
         </h1>
       </motion.div>
@@ -185,7 +182,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <FullImage src="/images/quiz/offer-hero-back.png" alt="Mulher pronta para começar seu treino de Calistenia Chinesa, vista de costas" />
       </motion.div>
 
-      {/* Profile summary — Nome/Idade sit to the left of the Objetivo list, split by a
+      {/* Profile summary — Idade sits to the left of the Objetivo list, split by a
           soft-faded divider; Intensidade/Peso/Meta stay compact single-value cards. */}
       <div className="flex flex-col gap-3">
         <motion.div
@@ -195,12 +192,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           className="grid grid-cols-[minmax(72px,auto)_1px_1fr] gap-4 rounded-2xl border border-border bg-surface p-4"
         >
           <div className="flex flex-col justify-center gap-3">
-            {leadName && (
-              <div>
-                <p className="text-[10.5px] font-semibold text-text-secondary">Nome</p>
-                <p className="break-words text-[14px] font-extrabold leading-snug text-text">{leadName}</p>
-              </div>
-            )}
             {leadAge && (
               <div>
                 <p className="text-[10.5px] font-semibold text-text-secondary">Idade</p>
