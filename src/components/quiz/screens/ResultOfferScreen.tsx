@@ -18,7 +18,7 @@ import { CTAButton } from "../CTAButton";
 import { Headline } from "../Headline";
 import { trackQuizEvent } from "@/lib/analytics";
 import { withCurrentSearchParams } from "@/lib/utm";
-import { offerObjectiveLines, intensityLabel } from "@/lib/quizData";
+import { goalLabel, intensityLabel } from "@/lib/quizData";
 import type { Answers } from "@/lib/quizTypes";
 
 const RECEIVES = [
@@ -210,7 +210,7 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
       {/* Profile summary — never truncated: the card grows to fit the full text */}
       <div className="grid grid-cols-2 gap-3">
         {[
-          { icon: Target, label: "Objetivo", value: offerObjectiveLines(answers).join("\n"), color: "var(--color-pink-strong)" },
+          { icon: Target, label: "Objetivo", value: goalLabel(answers), color: "var(--color-pink-strong)" },
           { icon: Gauge, label: "Intensidade", value: intensityLabel(answers), color: "var(--color-pink-strong)" },
           { icon: Scale, label: "Peso atual", value: `${current}kg`, color: "var(--color-danger)" },
           { icon: Flame, label: "Meta", value: `${target}kg`, color: "var(--color-success)" },
