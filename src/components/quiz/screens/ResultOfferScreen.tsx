@@ -4,13 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-  Check,
+  CircleCheckBig,
   Target,
   Flame,
   Scale,
   Gauge,
   Star,
-  Clock,
 } from "lucide-react";
 import { PlanSelector, PLANS } from "../offer/PlanSelector";
 import { Testimonials } from "../offer/Testimonials";
@@ -19,7 +18,7 @@ import { CTAButton } from "../CTAButton";
 import { Headline } from "../Headline";
 import { trackQuizEvent } from "@/lib/analytics";
 import { withCurrentSearchParams } from "@/lib/utm";
-import { timePerDayInfo, offerObjectiveLines, intensityLabel } from "@/lib/quizData";
+import { offerObjectiveLines, intensityLabel } from "@/lib/quizData";
 import type { Answers } from "@/lib/quizTypes";
 
 const RECEIVES = [
@@ -133,8 +132,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
 
   const current = Number(answers.currentWeightKg ?? 68);
   const target = Number(answers.targetWeightKg ?? 60);
-  const time = timePerDayInfo(answers);
-  const leadAge = typeof answers.leadAge === "string" ? answers.leadAge.trim() : "";
   const plan = PLANS.find((p) => p.id === selectedPlan) ?? PLANS[1];
 
   function goToCheckout(planId: string) {
@@ -156,21 +153,12 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
   return (
     <div className="flex flex-1 flex-col gap-8 py-6">
       {/* Header confirmation */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex items-start gap-2.5"
-      >
-        <span className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-success">
-          <Check size={15} strokeWidth={3.5} className="text-white" />
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-center">
+        <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-success-light">
+          <CircleCheckBig size={26} className="text-success" />
         </span>
-        <h1
-          className="text-[27px] font-extrabold text-text"
-          style={{ fontFamily: "var(--font-poppins)", lineHeight: 1.02, letterSpacing: "-0.03em" }}
-        >
-          <span className="text-success">Parabéns!</span>{" "}
-          Seu treino personalizado de <span className="text-pink-strong">Calistenia Chinesa</span> está pronto.
+        <h1 className="text-[22px] font-extrabold leading-tight tracking-tight text-text">
+          Seu treino personalizado de Calistenia Chinesa está pronto
         </h1>
       </motion.div>
 
@@ -182,95 +170,26 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <FullImage src="/images/quiz/offer-hero-back.png" alt="Mulher pronta para começar seu treino de Calistenia Chinesa, vista de costas" />
       </motion.div>
 
-      {/* Profile summary — Idade sits to the left of the Objetivo list, split by a
-          soft-faded divider; Intensidade/Peso/Meta stay compact single-value cards. */}
-      <div className="flex flex-col gap-3">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.35 }}
-          className="grid grid-cols-[minmax(72px,auto)_1px_1fr] gap-4 rounded-2xl border border-border bg-surface p-4"
-        >
-          <div className="flex flex-col justify-center gap-3">
-            {leadAge && (
-              <div>
-                <p className="text-[10.5px] font-semibold text-text-secondary">Idade</p>
-                <p className="text-[14px] font-extrabold leading-snug text-text">{leadAge} anos</p>
-              </div>
-            )}
-          </div>
-
-          <div
-            className="self-stretch"
-            style={{ background: "linear-gradient(to bottom, transparent, var(--color-border-strong), transparent)" }}
-            aria-hidden
-          />
-
-          <div>
-            <div className="flex items-center gap-1.5">
-              <Target size={16} className="text-pink-strong" />
-              <p className="text-[11.5px] font-semibold text-text-secondary">Objetivo</p>
-            </div>
-            <ul className="mt-2.5 flex flex-col gap-1.5">
-              {offerObjectiveLines(answers).map((line) => (
-                <li key={line} className="flex items-start gap-2">
-                  <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-pink-strong" aria-hidden />
-                  <span className="text-[14px] font-extrabold leading-snug text-text">{line}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </motion.div>
-
-        <div className="grid grid-cols-3 gap-3">
-          {[
-            { icon: Gauge, label: "Intensidade", value: intensityLabel(answers), color: "var(--color-pink-strong)" },
-            { icon: Scale, label: "Peso atual", value: `${current}kg`, color: "var(--color-danger)" },
-            { icon: Flame, label: "Meta", value: `${target}kg`, color: "var(--color-success)" },
-          ].map((c, i) => (
-            <motion.div
-              key={c.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.16 + i * 0.06, duration: 0.35 }}
-              className="rounded-2xl border border-border bg-surface p-3"
-            >
-              <c.icon size={15} style={{ color: c.color }} />
-              <p className="mt-1.5 text-[10.5px] font-semibold leading-tight text-text-secondary">{c.label}</p>
-              <p
-                className="mt-0.5 text-[12.5px] font-extrabold leading-snug text-text"
-                style={{ hyphens: "auto", overflowWrap: "normal" }}
-                lang="pt-BR"
-              >
-                {c.value}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Time per day — replaces the old plain "Duração recomendada" caption */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.32, duration: 0.35 }}
-          className="flex flex-col items-center gap-1.5 rounded-2xl border border-border bg-surface px-5 py-4 text-center"
-        >
-          <div className="flex items-center gap-1.5">
-            <Clock size={14} className="text-pink-strong" />
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-pink-strong">Tempo por dia</p>
-          </div>
-          {time.isRecommended ? (
-            <p className="max-w-[300px] text-[14.5px] font-bold leading-snug text-text">
-              Com base nas suas respostas, <span className="text-pink-strong">{time.minutes} minutos</span> é o ideal
-              para sua rotina.
-            </p>
-          ) : (
-            <p className="leading-none text-text">
-              <span className="text-[28px] font-extrabold">{time.minutes}</span>{" "}
-              <span className="text-[14px] font-semibold text-text-secondary">minutos por dia</span>
-            </p>
-          )}
-        </motion.div>
+      {/* Profile summary — never truncated: the card grows to fit the full text */}
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { icon: Target, label: "Objetivo", value: offerObjectiveLines(answers).join("\n"), color: "var(--color-pink-strong)" },
+          { icon: Gauge, label: "Intensidade", value: intensityLabel(answers), color: "var(--color-pink-strong)" },
+          { icon: Scale, label: "Peso atual", value: `${current}kg`, color: "var(--color-danger)" },
+          { icon: Flame, label: "Meta", value: `${target}kg`, color: "var(--color-success)" },
+        ].map((c, i) => (
+          <motion.div
+            key={c.label}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 + i * 0.06, duration: 0.35 }}
+            className="rounded-2xl border border-border bg-surface p-4"
+          >
+            <c.icon size={16} style={{ color: c.color }} />
+            <p className="mt-2 text-[11.5px] font-semibold text-text-secondary">{c.label}</p>
+            <p className="whitespace-pre-line break-words text-[14.5px] font-extrabold leading-snug text-text">{c.value}</p>
+          </motion.div>
+        ))}
       </div>
 
       {/* Plans */}
