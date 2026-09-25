@@ -92,6 +92,27 @@ const BONUSES = [
 
 const BONUSES_TOTAL = "R$ 155,50";
 
+const REAL_GOALS = [
+  "Perca de gordura localizada",
+  "Acabar com as dores no corpo",
+  "Mais energia e menos cansaço",
+  "Dormir melhor",
+  "Acelerar o metabolismo",
+  "Recuperar flexibilidade e mobilidade",
+  "Criar um hábito físico leve e fácil de manter",
+  "Fortalecer o seu corpo e músculos",
+];
+
+const TRAINING_INCLUDES = [
+  "Aulas organizadas em um caminho simples e fácil de seguir",
+  "Interface intuitiva, pensada para quem não entende de tecnologia",
+  "Vídeos claros, didáticos e 100% guiados para iniciantes",
+  "Assista onde quiser: TV, celular ou tablet",
+  "Recomendações personalizadas conforme seu nível e evolução",
+  "Sessões curtas para caber na sua rotina corrida",
+  "Histórico de progresso para acompanhar sua evolução diária",
+];
+
 function SectionTitle({ eyebrow, title }: { eyebrow?: string; title: string }) {
   return (
     <div className="mb-4">
@@ -105,6 +126,22 @@ function FullImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="overflow-hidden rounded-2xl bg-[#faf6f8]">
       <Image src={src} alt={alt} width={1200} height={1500} className="h-auto w-full" sizes="(max-width: 520px) 100vw, 480px" />
+    </div>
+  );
+}
+
+function CheckList({ items }: { items: string[] }) {
+  return (
+    <div
+      className="flex flex-col gap-3 rounded-2xl border px-5 py-5"
+      style={{ background: "var(--color-success-light)", borderColor: "#bfe6cb" }}
+    >
+      {items.map((item) => (
+        <div key={item} className="flex items-start gap-2.5">
+          <CircleCheckBig size={17} className="mt-0.5 shrink-0 text-success" />
+          <span className="text-[13.5px] font-semibold leading-snug text-text">{item}</span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -204,6 +241,25 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <FullImage src="/images/quiz/offer-jornada.png" alt="Comparação de resultados antes e depois do programa" />
       </div>
 
+      {/* Scientific backing / comparison vs conventional training */}
+      <div>
+        <h2 className="text-[19px] font-extrabold leading-snug tracking-tight text-text">
+          A calistenia chinesa foi comprovada com <span className="text-pink-strong">83% de aprovação</span> pela
+          FJUS.BR sendo o Método mais rápido e eficiente de mulheres perderem gordura localizada.
+        </h2>
+        <p className="mt-3 text-[13.5px] leading-relaxed text-text-secondary">
+          Diferente dos treinos convencionais de academia, onde te ensinam a treinar apenas músculos, a Calistenia
+          Chinesa age na ativação das fibras profundas, que são responsáveis pela queima de gordura e aceleração do
+          metabolismo.
+        </p>
+        <div className="mt-4">
+          <FullImage
+            src="/images/quiz/offer-fjus-chart.png"
+            alt="Comparação de evolução: Calistenia Chinesa vs. treinos convencionais"
+          />
+        </div>
+      </div>
+
       {/* Testimonials — written reviews only, no before/after image proof */}
       <div>
         <SectionTitle eyebrow="Depoimentos" title="Resultados que nos orgulham" />
@@ -217,6 +273,21 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
             <FullImage key={src} src={src} alt="Depoimento real de aluna do programa, antes e depois" />
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ duration: 0.4 }}
+          className="mb-4 text-center"
+        >
+          <p className="text-[15px] font-extrabold leading-snug text-text">Ajudamos mais de</p>
+          <p className="text-[27px] font-extrabold leading-tight text-pink-strong">1.7M+ de Mulheres</p>
+          <p className="mt-1 text-[13.5px] font-medium text-text-secondary">
+            a alcançarem o corpo dos seus sonhos
+          </p>
+        </motion.div>
+
         <Testimonials />
       </div>
 
@@ -260,6 +331,9 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           </p>
         </div>
         <FullImage src="/images/quiz/offer-training-complete.png" alt="Cronograma semanal completo do treinamento" />
+        <div className="mt-4">
+          <CheckList items={TRAINING_INCLUDES} />
+        </div>
       </div>
 
       {/* Rating strip */}
@@ -326,6 +400,14 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
             <span className="font-extrabold text-success">Gratuita!.</span>
           </p>
         </motion.div>
+      </div>
+
+      {/* Real goals checklist */}
+      <div>
+        <h2 className="mb-4 text-center text-[19px] font-extrabold leading-snug tracking-tight text-text">
+          As metas reais que você vai alcançar incluem:
+        </h2>
+        <CheckList items={REAL_GOALS} />
       </div>
 
       {/* Plans repeated — the CTA right after the bonuses */}
