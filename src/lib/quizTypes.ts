@@ -87,6 +87,10 @@ export interface ChoiceStep extends BaseStep {
   imageGrid?: boolean;
   /** Options rendered as full-width rows: thumbnail left, label middle, radio/check right (e.g. the goal step). */
   imageList?: boolean;
+  /** Options rendered as a plain white-card vertical list: square cover-fit thumbnail
+   * left, label right, circular check indicator (e.g. the focusArea step). Distinct from
+   * imageList, whose rows use the pink-tinted card treatment. */
+  plainImageList?: boolean;
 }
 
 export interface InfoStep extends BaseStep {

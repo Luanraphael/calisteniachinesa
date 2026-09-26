@@ -65,7 +65,48 @@ export function ChoiceScreen({
 
   const optionsBlock = (
     <>
-      {step.imageList ? (
+      {step.plainImageList ? (
+        <div className="flex flex-col gap-3">
+          {step.options.map((opt, i) => {
+            const isSel = selectedList.includes(opt.id);
+            return (
+              <motion.button
+                key={opt.id}
+                type="button"
+                role={multi ? "checkbox" : "radio"}
+                aria-checked={isSel}
+                onClick={() => toggle(opt.id)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.04 }}
+                whileTap={{ scale: 0.985 }}
+                className="flex w-full items-center gap-3.5 rounded-2xl border bg-surface px-3 py-3 text-left shadow-xs transition-colors"
+                style={{
+                  borderColor: isSel ? "var(--color-pink)" : "var(--color-border)",
+                  background: isSel ? "var(--color-pink-mist)" : "var(--color-surface)",
+                  boxShadow: isSel ? "0 4px 16px rgba(236,63,134,0.14)" : undefined,
+                }}
+              >
+                {opt.image?.src && (
+                  <span className="relative block h-16 w-16 shrink-0 overflow-hidden rounded-xl">
+                    <Image src={opt.image.src} alt={opt.image.alt} fill style={{ objectFit: "cover" }} sizes="64px" />
+                  </span>
+                )}
+                <span className={`flex-1 min-w-0 text-[14.5px] font-semibold leading-snug ${isSel ? "text-pink-strong" : "text-text"}`}>
+                  {opt.label}
+                </span>
+                <span
+                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 ${
+                    isSel ? "border-pink bg-pink" : "border-border-strong bg-transparent"
+                  }`}
+                >
+                  {isSel && <Check size={14} strokeWidth={3} className="text-white" />}
+                </span>
+              </motion.button>
+            );
+          })}
+        </div>
+      ) : step.imageList ? (
         <div className="flex flex-col gap-2.5">
           {step.options.map((opt, i) => {
             const isSel = selectedList.includes(opt.id);

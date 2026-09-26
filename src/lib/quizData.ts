@@ -195,13 +195,14 @@ export const quizSteps: QuizStep[] = [
   {
     id: "focusArea",
     type: "choice",
-    imageGrid: true,
+    plainImageList: true,
     headline: "Quais áreas do corpo você mais gostaria de **ver mudanças**?",
     subheadline: "Pode selecionar quantas quiser.",
     answerKey: "focusArea",
     multi: true,
     ctaLabel: "Continuar",
     options: [
+      { id: "chin", label: "Papada", image: { key: "focus-chin", alt: "Papada", src: `${P}/focus-chin.png` } },
       { id: "belly", label: "Barriga grande", image: { key: "focus-belly", alt: "Barriga grande", src: `${P}/focus-belly.png` } },
       { id: "arms", label: "Braços flácidos", image: { key: "focus-arms", alt: "Braços flácidos", src: `${P}/focus-arms.png` } },
       { id: "butt", label: "Bumbum caído", image: { key: "focus-butt", alt: "Bumbum caído", src: `${P}/focus-butt.png` } },
@@ -671,6 +672,7 @@ export function intensityLabel(a: Answers): string {
  */
 export function offerObjectiveLines(a: Answers): string[] {
   const positiveMap: Record<string, string> = {
+    chin: "Eliminar papada",
     belly: "Eliminar barriga",
     arms: "Braços firmes e tonificados",
     legs: "Pernas firmes e tonificadas",
