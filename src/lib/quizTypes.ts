@@ -97,7 +97,7 @@ export interface InfoStep extends BaseStep {
   type: "info";
   /** Static, or computed from answers (e.g. the biotype photo, chosen per the lead's actual answer). */
   image?: ImageSlot | ((a: Answers) => ImageSlot);
-  imagePosition?: "top" | "bottom" | "middle";
+  imagePosition?: "top" | "afterHeadline" | "bottom" | "middle";
   headline: string | ((a: Answers) => string);
   headlineSize?: "sm" | "md" | "lg";
   center?: boolean;

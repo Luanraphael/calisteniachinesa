@@ -113,7 +113,7 @@ export const quizSteps: QuizStep[] = [
     id: "experience",
     type: "choice",
     sideImage: { key: "experience-side", variant: "side", alt: "Mulher alongando os braços acima da cabeça", src: `${P}/experience-side.png`, position: "left", figureWidthPct: 38 },
-    headline: "Você conhece a **CALISTENIA CHINESA**?",
+    headline: "Você já experimentou exercícios de calistenia?",
     answerKey: "experience",
     options: [
       { id: "yes", label: "Sim, já experimentei" },
@@ -126,9 +126,17 @@ export const quizSteps: QuizStep[] = [
     id: "explain",
     type: "info",
     image: img("explain-hero", "full", "Mulher de pé ao lado de uma cadeira, pronta para treinar", `${P}/explain-hero.png`),
-    headline: "A calistenia Chinesa não é um **treino comum**!",
+    // "yes" gets the "você já tem a base" copy; "heard"/"no" (hasn't actually practiced
+    // it) both get the "comece do zero" copy — only two variants were provided.
+    headline: (a: Answers) =>
+      a.experience === "yes"
+        ? "Você já tem a base, mas a Calistenia Chinesa é diferente da calistenia comum."
+        : "Não se preocupe, a Calistenia Chinesa é perfeita para quem está começando do zero!",
     center: true,
-    body: "A calistenia Chinesa é uma prática milenar que estimula o corpo de forma inteligente e efetiva usando apenas o peso do seu corpo e uma cadeira. Sem necessidade de força em excesso e de treinos longos que lesionam no longo prazo.",
+    body: (a: Answers) =>
+      a.experience === "yes"
+        ? "Enquanto o método tradicional foca apenas em força externa, nossa técnica ativa as fibras profundas, agindo na musculatura interna, onde eliminamos a gordura mais difícil de queimar e destravamos o seu metabolismo de forma definitiva."
+        : "Calistenia significa usar apenas o peso do seu corpo, e nossa técnica simplifica tudo ao focar na ativação das fibras profundas. É o caminho mais rápido para você destravar o metabolismo e secar a barriga sem o esforço exaustivo da academia.",
     ctaLabel: "EU QUERO TUDO ISSO",
   },
   // 6 — Body type (image grid)
@@ -211,16 +219,28 @@ export const quizSteps: QuizStep[] = [
       { id: "full", label: "Quero cuidar do corpo todo", image: { key: "focus-full", alt: "Corpo todo", src: `${P}/focus-full.png` } },
     ],
   },
-  // 11 — Value prop (dynamic, laptop+phone video mockup)
+  // 10b — Loading (donut) — the exact same component/config as savingAnswers, reused here
+  {
+    id: "savingFocusArea",
+    type: "loading",
+    variant: "donut",
+    headline: "Salvando suas respostas…",
+    durationMs: 2200,
+  },
+  // 11 — Value prop (clean natural-render image, no card/frame behind it)
   {
     id: "valueProp",
     type: "info",
-    image: img("valueprop-mockup", "mockup", "Prévia das aulas em vídeo no notebook e no celular", `${P}/valueprop-mockup.png`),
-    headline: (a: Answers) => valuePropHeadline(a),
-    body: (a: Answers) =>
-      `Eu gravei aulas em vídeo para você saber exatamente o que fazer. Seu treino será focado em ${focusAreaLabel(
-        a
-      )}, respeitando seu ritmo e seu corpo.`,
+    image: {
+      key: "valueprop-body",
+      variant: "natural",
+      alt: "Mulher se exercitando sentada em uma cadeira",
+      src: `${P}/valueprop-body.png`,
+      naturalWidth: 1122,
+      naturalHeight: 1402,
+    },
+    headline: "Perfeito. Agora já sabemos exatamente quais partes do seu corpo mais Incomodam você",
+    body: "Com base nisso daremos Inicio a criação do seu Treino personalizado de calistenia focado justamente nas regiões que você quer transformar, respeitando o seu ritmo e o ponto em que o seu corpo está hoje.",
     ctaLabel: "Criar meu treino personalizado",
   },
   // 12 — Daily activity (no image, matches the reference)
@@ -344,19 +364,14 @@ export const quizSteps: QuizStep[] = [
       { id: "decide", label: "Prefiro que vocês decidam", emoji: "💪" },
     ],
   },
-  // 22 — Intensity confirm + 2x2 real-photo roadmap
+  // 22 — Intensity confirm (single image + headline + subheadline)
   {
     id: "roadmap",
-    type: "roadmap",
+    type: "info",
+    image: img("roadmap-hero", "full", "Mulher fazendo um exercício de calistenia ao lado de uma cadeira", `${P}/roadmap-hero.png`),
     headline: (a: Answers) => `Ótimo, a intensidade do seu treino será:\n++${intensityLabel(a)}++`,
     body: "Você começará com treinos adaptados ao seu nível atual, mas com progressão RÁPIDA e NATURAL.",
     ctaLabel: "Continuar",
-    phases: [
-      { range: "SEMANA 1-2", text: "Corpo começa a despertar. Postura, respiração e energia começam a melhorar.", color: "#d1445a", image: img("roadmap-1", "side", "Semana 1-2: corpo despertando", `${P}/roadmap-1.png`) },
-      { range: "SEMANA 3-4", text: "Dores e rigidez começam a ceder. Você sente mais disposição no dia a dia.", color: "#c9932e", image: img("roadmap-2", "side", "Semana 3-4: menos dores", `${P}/roadmap-2.png`) },
-      { range: "SEMANA 5-6", text: "Barriga começa a reduzir, corpo fica mais firme. Roupas começam a servir melhor.", color: "#2f6fb0", image: img("roadmap-3", "side", "Semana 5-6: corpo mais firme", `${P}/roadmap-3.png`) },
-      { range: "SEMANA 7-8", text: "Corpo definido, energia consistente e confiança em alta. Você não se reconhece.", color: "#1f9d6d", image: img("roadmap-4", "side", "Semana 7-8: corpo definido", `${P}/roadmap-4.png`) },
-    ],
   },
   // 23 — Duration
   {
@@ -375,8 +390,16 @@ export const quizSteps: QuizStep[] = [
   {
     id: "noSuffering",
     type: "info",
-    fullGraphic: { src: `${P}/no-suffering-full.png`, alt: "Você não precisa sofrer para ter resultados! Comparação de agachamento com e sem sobrecarga" },
     headline: "Você não precisa **sofrer** para ter resultados!",
+    image: {
+      key: "no-suffering-illustration",
+      variant: "natural",
+      alt: "Ilustração comparando um agachamento incorreto e um agachamento correto",
+      src: `${P}/no-suffering-illustration.png`,
+      naturalWidth: 1254,
+      naturalHeight: 1254,
+    },
+    imagePosition: "afterHeadline",
     body: "**Exercícios de alto impacto** esgotam sua energia e podem causar **lesões** à medida que envelhecemos. Nosso plano de Calistenia Chinesa segue um caminho diferente:",
     bullets: [
       { text: "Não precisa de equipamentos", tone: "neutral" },
@@ -505,8 +528,8 @@ export const quizSteps: QuizStep[] = [
     headline: "Você gostaria de aumentar sua energia saúde e disposição de forma natural?.",
     answerKey: "wantsEnergy",
     options: [
-      { id: "no", label: "Prefiro deixar como está", emoji: "🚫" },
       { id: "yes", label: "Sim, com certeza", emoji: "✅" },
+      { id: "no", label: "Prefiro deixar como está", emoji: "🚫" },
     ],
   },
   // 36 — Loading (donut, building profile)
@@ -638,21 +661,6 @@ export function focusAreaLabel(a: Answers): string {
   };
   if (list.includes("full") || list.length === 0) return "Corpo Todo";
   return list.map((v) => map[v] ?? v).join(", ");
-}
-
-function valuePropHeadline(a: Answers): string {
-  const val = a.focusArea;
-  const list = Array.isArray(val) ? val : val ? [val as string] : [];
-  if (list.includes("belly") && list.length === 1) {
-    return "Consiga finalmente um **abdômen definido** e um corpo forte sem sair de casa";
-  }
-  if (list.includes("legs") && list.length === 1) {
-    return "Consiga **pernas firmes** e tonificadas sem sair de casa";
-  }
-  if (list.includes("posture") && list.length === 1) {
-    return "Recupere a **postura** e a firmeza das costas sem sair de casa";
-  }
-  return "Consiga finalmente o **corpo firme** que você quer sem sair de casa";
 }
 
 export function intensityLabel(a: Answers): string {

@@ -43,6 +43,7 @@ export function InfoScreen({
   const fullGraphic = "fullGraphic" in step ? step.fullGraphic : undefined;
 
   const topImage = image && imagePosition === "top";
+  const afterHeadlineImage = image && imagePosition === "afterHeadline";
   const middleImage = image && imagePosition === "middle";
   const bottomImage = image && imagePosition === "bottom";
 
@@ -106,6 +107,12 @@ export function InfoScreen({
           <Headline center={center} size={headlineSize}>
             {headline}
           </Headline>
+        </motion.div>
+      )}
+
+      {afterHeadlineImage && (
+        <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}>
+          <ImagePlaceholder slot={image} />
         </motion.div>
       )}
 
