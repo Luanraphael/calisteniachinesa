@@ -40,7 +40,8 @@ export function ImagePlaceholder({ slot, className, priority }: { slot: ImageSlo
           alt={slot.alt}
           width={slot.naturalWidth ?? 1000}
           height={slot.naturalHeight ?? 1000}
-          className={`h-auto w-full ${className ?? ""}`}
+          className={`h-auto ${slot.naturalMaxWidthPx ? "mx-auto" : "w-full"} ${className ?? ""}`}
+          style={slot.naturalMaxWidthPx ? { width: "100%", maxWidth: `${slot.naturalMaxWidthPx}px` } : undefined}
           priority={priority}
         />
       );

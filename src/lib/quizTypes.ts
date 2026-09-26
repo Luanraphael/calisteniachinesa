@@ -16,6 +16,9 @@ export interface ImageSlot {
    * without a `fill` wrapper (which is what forced the mismatched-aspect background). */
   naturalWidth?: number;
   naturalHeight?: number;
+  /** "natural" only — caps and centers the render instead of stretching it full-width,
+   * for a supporting illustration that shouldn't dominate the screen. */
+  naturalMaxWidthPx?: number;
 }
 
 export interface ChoiceOption {
