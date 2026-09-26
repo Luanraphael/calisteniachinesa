@@ -231,6 +231,7 @@ export const quizSteps: QuizStep[] = [
   {
     id: "valueProp",
     type: "info",
+    inlineFooter: true,
     headline: "**Perfeito**! Agora já sabemos exatamente quais partes do seu corpo mais Incomodam você",
     body: "Com base nisso daremos Inicio a criação do seu Treino personalizado de calistenia focado justamente nas regiões que você quer transformar, respeitando o seu ritmo e o ponto em que o seu corpo está hoje.",
     ctaLabel: "Criar meu treino personalizado",

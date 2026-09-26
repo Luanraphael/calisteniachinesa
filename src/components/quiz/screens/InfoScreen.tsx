@@ -41,6 +41,7 @@ export function InfoScreen({
   const center = "center" in step ? step.center : undefined;
   const headlineSize = "headlineSize" in step ? step.headlineSize : undefined;
   const fullGraphic = "fullGraphic" in step ? step.fullGraphic : undefined;
+  const inlineFooter = "inlineFooter" in step ? step.inlineFooter : undefined;
 
   const topImage = image && imagePosition === "top";
   const afterHeadlineImage = image && imagePosition === "afterHeadline";
@@ -228,9 +229,13 @@ export function InfoScreen({
         </motion.div>
       )}
 
-      <ScreenFooter>
+      {inlineFooter ? (
         <CTAButton label={step.ctaLabel} onClick={onContinue} />
-      </ScreenFooter>
+      ) : (
+        <ScreenFooter>
+          <CTAButton label={step.ctaLabel} onClick={onContinue} />
+        </ScreenFooter>
+      )}
     </div>
   );
 }

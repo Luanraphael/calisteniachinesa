@@ -119,6 +119,10 @@ export interface InfoStep extends BaseStep {
   realImage?: { src: string; alt: string };
   /** A single pre-made graphic that already contains the headline/comparison — suppresses the HTML headline. */
   fullGraphic?: { src: string; alt: string };
+  /** Renders the CTA in normal flow right after the content instead of pinned to the
+   * viewport bottom — for an imageless step whose content is much shorter than the
+   * screen, where the sticky footer would otherwise leave a large empty gap above it. */
+  inlineFooter?: boolean;
   /** Embedded chart shown inline within the info screen, matching the reference's placement. */
   embeddedChart?: "riskCurve";
   /** Small stylised "article" trust card (never a real outlet's branding). */
