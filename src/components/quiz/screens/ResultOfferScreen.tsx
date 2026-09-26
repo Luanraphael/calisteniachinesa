@@ -247,11 +247,16 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
           A calistenia chinesa foi comprovada com <span className="text-pink-strong">83% de aprovação</span> pela
           FJUS.BR sendo o Método mais rápido e eficiente de mulheres perderem gordura localizada.
         </h2>
-        <p className="mt-3 text-[13.5px] leading-relaxed text-text-secondary">
-          Diferente dos treinos convencionais de academia, onde te ensinam a treinar apenas músculos, a Calistenia
-          Chinesa age na ativação das fibras profundas, que são responsáveis pela queima de gordura e aceleração do
-          metabolismo.
-        </p>
+        <div
+          className="mt-3 rounded-2xl border px-5 py-4"
+          style={{ background: "var(--color-success-light)", borderColor: "#bfe6cb" }}
+        >
+          <p className="text-[13.5px] leading-relaxed text-[#1c6b4c]">
+            Diferente dos treinos convencionais de academia, onde te ensinam a treinar apenas músculos, a Calistenia
+            Chinesa age na ativação das fibras profundas, que são responsáveis pela queima de gordura e aceleração do
+            metabolismo.
+          </p>
+        </div>
         <div className="mt-4">
           <FullImage
             src="/images/quiz/offer-fjus-chart.png"
