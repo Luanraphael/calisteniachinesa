@@ -38,7 +38,7 @@ export function ChartScreen({
       >
         Prevemos que você {goingUp ? "alcance" : "chegue a"}{" "}
         <span className="text-success">{target}kg</span> em até{" "}
-        <span className="text-pink-strong">8 semanas</span>
+        <span className="text-pink-strong">21 dias</span>
       </motion.h1>
 
       <motion.div

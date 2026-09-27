@@ -49,11 +49,11 @@ export function WeightProjectionChart({
 
   const first = points[0];
   const last = points[points.length - 1];
-  const weekLabels = ["Sem 01", "Sem 04", "Sem 06", "Sem 08"];
+  const dayLabels = ["Dia 05", "Dia 10", "Dia 15", "Dia 21"];
 
   return (
     <div className="w-full">
-      <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label="Projeção ilustrativa de evolução de peso ao longo de 8 semanas">
+      <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label="Projeção ilustrativa de evolução de peso ao longo de 21 dias">
         <defs>
           <linearGradient id="proj-line" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="var(--color-danger)" />
@@ -139,7 +139,7 @@ export function WeightProjectionChart({
             <motion.g initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.6, duration: 0.35 }}>
               <rect x={x} y={last.y - 34} width={labelW} height={22} rx={11} fill="var(--color-success)" />
               <text x={x + labelW / 2} y={last.y - 19} textAnchor="middle" fontSize="11" fontWeight="700" fill="white">
-                8 sem. {targetWeight}kg
+                21 dias {targetWeight}kg
               </text>
             </motion.g>
           );
@@ -147,8 +147,8 @@ export function WeightProjectionChart({
       </svg>
 
       <div className="mt-1 flex justify-between px-[2px] text-[11px] font-medium text-text-secondary">
-        {weekLabels.map((w) => (
-          <span key={w}>{w}</span>
+        {dayLabels.map((d) => (
+          <span key={d}>{d}</span>
         ))}
       </div>
     </div>
