@@ -166,17 +166,27 @@ export function ChoiceScreen({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: i * 0.05 }}
                 whileTap={{ scale: 0.985 }}
-                className="overflow-hidden rounded-2xl border-2 text-left transition-colors"
+                className="flex flex-col overflow-hidden rounded-2xl border-2 text-left transition-colors"
                 style={{ borderColor: isSel ? "var(--color-pink)" : "var(--color-pink-wash-border)" }}
               >
+                {/* Fixed-geometry image slot: every card gets the identical box regardless of
+                    the source file's own aspect ratio or internal transparent padding — the
+                    card controls the frame, the image is just centered/contained inside it. */}
                 {opt.image && (
-                  <ImagePlaceholder
-                    slot={{ key: opt.image.key, alt: opt.image.alt, src: opt.image.src, variant: "side" }}
-                    className="rounded-none border-0"
-                  />
+                  <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-[#faf6f8]">
+                    {opt.image.src && (
+                      <Image
+                        src={opt.image.src}
+                        alt={opt.image.alt}
+                        fill
+                        style={{ objectFit: "contain", objectPosition: "center" }}
+                        sizes="(max-width: 520px) 45vw, 220px"
+                      />
+                    )}
+                  </div>
                 )}
                 <div
-                  className="flex items-center justify-between gap-1 px-2.5 py-2.5"
+                  className="flex min-h-[52px] flex-1 items-center justify-between gap-1 px-2.5 py-2.5"
                   style={{ background: isSel ? "var(--color-pink-mist)" : "var(--color-pink-wash)" }}
                 >
                   <span className={`text-[12.5px] font-bold leading-tight ${isSel ? "text-pink-strong" : "text-text"}`}>{opt.label}</span>
