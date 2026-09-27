@@ -575,11 +575,13 @@ export const quizSteps: QuizStep[] = [
       "Ajustando o nível de intensidade",
       "Criando seu treino personalizado",
     ],
-    durationMs: 9600,
+    durationMs: 11600,
     showSocialProof: true,
     testimonials: [
-      { src: `${P}/loading-testimonial-1.jpg`, alt: "Depoimento de aluna — antes e depois" },
-      { src: `${P}/loading-testimonial-2.jpg`, alt: "Depoimento de aluna — antes e depois" },
+      { src: `${P}/loading-testimonial-1-front.png`, alt: "Depoimento de aluna — antes e depois, de frente" },
+      { src: `${P}/loading-testimonial-1-back.png`, alt: "Depoimento de aluna — antes e depois, de costas" },
+      { src: `${P}/loading-testimonial-2-front.png`, alt: "Depoimento de aluna — antes e depois, de frente" },
+      { src: `${P}/loading-testimonial-2-back.png`, alt: "Depoimento de aluna — antes e depois, de costas" },
     ],
   },
   // 41 — Weight projection chart

@@ -87,9 +87,13 @@ function SequentialLoading({
   const [testimonialIndex, setTestimonialIndex] = useState(0);
 
   useEffect(() => {
-    if (!step.testimonials || step.testimonials.length < 2) return;
-    const halfway = window.setTimeout(() => setTestimonialIndex(1), step.durationMs / 2);
-    return () => window.clearTimeout(halfway);
+    const n = step.testimonials?.length ?? 0;
+    if (n < 2) return;
+    const interval = step.durationMs / n;
+    const timers = Array.from({ length: n - 1 }, (_, i) =>
+      window.setTimeout(() => setTestimonialIndex(i + 1), interval * (i + 1))
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
