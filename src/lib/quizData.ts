@@ -336,7 +336,7 @@ export const quizSteps: QuizStep[] = [
     id: "benefits",
     type: "benefits",
     image: img("benefits-hero", "mockup", "Mulher em movimento de calistenia com pontos de energia destacados", `${P}/benefits-hero-real.png`),
-    headline: "**Não se preocupe!** O seu treino será %%estrategicamente%% adaptado com exercícios Ideais para o seu corpo e Situação atual.",
+    headline: "**Não se preocupe!** O seu treino será estrategicamente adaptado com ++exercícios Ideais++ para o seu corpo e Situação atual.",
     subheadline: "Vamos proteger as áreas lesionadas e, ao mesmo tempo, criar um plano para restaurar seu corpo.",
     ctaLabel: "Continuar",
     items: [
