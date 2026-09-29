@@ -3,14 +3,14 @@ import type { CSSProperties, ReactNode } from "react";
 /**
  * Parses inline markup shared by headlines and body copy:
  * `**pink**`, `++green++`, `##black bold##` (same color, heavier weight only),
- * `!!strong pink!!` (a perceptibly stronger grifo than `**`), and `\n` line breaks.
+ * `!!strong pink!!` (a perceptibly stronger grifo than `**`), `%%amber%%`, and `\n` line breaks.
  */
 export function parseRich(text: string): ReactNode[] {
   const lines = text.split("\n");
   const out: ReactNode[] = [];
   lines.forEach((line, li) => {
     if (li > 0) out.push(<br key={`br-${li}`} />);
-    const parts = line.split(/(\*\*[^*]+\*\*|\+\+[^+]+\+\+|##[^#]+##|!!.+?!!)/g);
+    const parts = line.split(/(\*\*[^*]+\*\*|\+\+[^+]+\+\+|##[^#]+##|!!.+?!!|%%[^%]+%%)/g);
     parts.forEach((part, pi) => {
       if (part.startsWith("**") && part.endsWith("**")) {
         out.push(
@@ -33,6 +33,12 @@ export function parseRich(text: string): ReactNode[] {
       } else if (part.startsWith("!!") && part.endsWith("!!")) {
         out.push(
           <span key={`${li}-${pi}`} className="font-black text-pink-strong">
+            {part.slice(2, -2)}
+          </span>
+        );
+      } else if (part.startsWith("%%") && part.endsWith("%%")) {
+        out.push(
+          <span key={`${li}-${pi}`} className="text-warning">
             {part.slice(2, -2)}
           </span>
         );

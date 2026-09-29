@@ -36,7 +36,8 @@ export function InfoScreen({
   const citation = "citation" in step ? step.citation : undefined;
   const calloutEmoji = "calloutEmoji" in step ? step.calloutEmoji : undefined;
   const calloutStyle = "calloutStyle" in step ? step.calloutStyle : undefined;
-  const calloutBody = "calloutBody" in step ? step.calloutBody : undefined;
+  const calloutBody = "calloutBody" in step && step.calloutBody ? resolve(step.calloutBody, answers) : undefined;
+  const bodyHighlight = "bodyHighlight" in step ? step.bodyHighlight : undefined;
   const realImage = "realImage" in step ? step.realImage : undefined;
   const center = "center" in step ? step.center : undefined;
   const headlineSize = "headlineSize" in step ? step.headlineSize : undefined;
@@ -155,12 +156,22 @@ export function InfoScreen({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.16 }}
+          className={bodyHighlight === "green" ? (center ? "mx-auto max-w-[420px]" : "max-w-[480px]") : undefined}
         >
-          <RichText
-            className={`text-[15px] leading-relaxed text-text-secondary ${center ? "mx-auto max-w-[420px] text-center" : "max-w-[480px]"}`}
-          >
-            {body}
-          </RichText>
+          {bodyHighlight === "green" ? (
+            <RichText
+              className={`rounded-2xl border px-5 py-4 text-[14.5px] font-medium leading-[1.65] ${center ? "text-center" : ""}`}
+              style={{ background: "var(--color-success-light)", borderColor: "#bfe6cb", color: "#1c6b4c" }}
+            >
+              {body}
+            </RichText>
+          ) : (
+            <RichText
+              className={`text-[15px] leading-relaxed text-text-secondary ${center ? "mx-auto max-w-[420px] text-center" : "max-w-[480px]"}`}
+            >
+              {body}
+            </RichText>
+          )}
         </motion.div>
       )}
 

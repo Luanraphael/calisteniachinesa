@@ -59,7 +59,8 @@ export const quizSteps: QuizStep[] = [
     image: img("welcome-hero", "full", "Mulher em pose de calistenia chinesa, meditativa e serena", `${P}/welcome-hero.png`),
     headline: "Bem-vinda à academia de **CALISTENIA CHINESA**",
     center: true,
-    body: "Descubra a técnica chinesa milenar criada especialmente para mulheres acima dos 40 que desejam ##Eliminar a barriga pochete##, ##tonificar o abdômen##, perder gordura localizada e acabar com as dores, Com treinos leves e suaves de apenas ##10 Minutos##.",
+    body: (a: Answers) =>
+      `Descubra a técnica chinesa milenar criada especialmente para mulheres acima dos ${ageThresholdNumber(a)} que desejam ##Eliminar a barriga pochete##, ##tonificar o abdômen##, perder gordura localizada e acabar com as dores, Com treinos leves e suaves de apenas ##10 Minutos##.`,
     ctaLabel: "COMEÇAR",
   },
   // 2 — Goal (hero image + 4 icon-illustrated options)
@@ -94,8 +95,8 @@ export const quizSteps: QuizStep[] = [
     headline: "Você achou a ++solução certa++!",
     calloutStyle: "yellow",
     calloutEmoji: "👉",
-    calloutBody:
-      "Depois dos 40, o corpo da mulher muda, e isso é natural. O !!estrogênio!! oscila e, com o tempo, diminui. Essas mudanças favorecem o !!acúmulo de gordura na barriga!!, afetam o sono e a disposição, e vêm acompanhadas de !!dores musculares e articulares!!, tornando mais difícil manter uma rotina de exercícios intensos.",
+    calloutBody: (a: Answers) =>
+      `Depois dos ${ageThresholdNumber(a)}, o corpo da mulher muda, e isso é natural. O !!estrogênio!! oscila e, com o tempo, diminui. Essas mudanças favorecem o !!acúmulo de gordura na barriga!!, afetam o sono e a disposição, e vêm acompanhadas de !!dores musculares e articulares!!, tornando mais difícil manter uma rotina de exercícios intensos.`,
     realImage: { src: "/images/producao-estrogenio-idade.png", alt: "Produção de estrogênio por idade" },
     subheadline2: "E quando isso acontece:",
     bullets: [
@@ -130,9 +131,10 @@ export const quizSteps: QuizStep[] = [
     // it) both get the "comece do zero" copy — only two variants were provided.
     headline: (a: Answers) =>
       a.experience === "yes"
-        ? "Você já tem a base, mas a Calistenia Chinesa é diferente da calistenia comum."
-        : "Não se preocupe, a Calistenia Chinesa é perfeita para quem está começando do zero!",
+        ? "Você já tem a base, mas a **Calistenia Chinesa** é diferente da calistenia comum."
+        : "Não se preocupe, a **Calistenia Chinesa** é perfeita para quem está começando do zero!",
     center: true,
+    bodyHighlight: "green",
     body: (a: Answers) =>
       a.experience === "yes"
         ? "Enquanto o método tradicional foca apenas em força externa, nossa técnica ativa as fibras profundas, agindo na musculatura interna, onde eliminamos a gordura mais difícil de queimar e destravamos o seu metabolismo de forma definitiva."
@@ -233,6 +235,7 @@ export const quizSteps: QuizStep[] = [
     type: "info",
     inlineFooter: true,
     headline: "**Perfeito**! Agora já sabemos exatamente quais partes do seu corpo mais Incomodam você",
+    bodyHighlight: "green",
     body: "Com base nisso daremos Inicio a criação do seu Treino personalizado de calistenia focado justamente nas regiões que você quer transformar, respeitando o seu ritmo e o ponto em que o seu corpo está hoje.",
     ctaLabel: "Criar meu treino personalizado",
   },
@@ -305,9 +308,10 @@ export const quizSteps: QuizStep[] = [
     type: "info",
     center: true,
     headlineSize: "lg",
-    imagePosition: "bottom",
+    imagePosition: "afterHeadline",
     image: (a: Answers) => biotypeFor(a).image,
     headline: (a: Answers) => `Parece que o seu biotipo é:\n**${biotypeFor(a).name}**`,
+    bodyHighlight: "green",
     body: (a: Answers) => biotypeFor(a).body,
     ctaLabel: "Continuar",
   },
@@ -332,8 +336,8 @@ export const quizSteps: QuizStep[] = [
     id: "benefits",
     type: "benefits",
     image: img("benefits-hero", "mockup", "Mulher em movimento de calistenia com pontos de energia destacados", `${P}/benefits-hero-real.png`),
-    headline: "A calistenia restaura seu corpo com **agilidade e precisão**.",
-    subheadline: "Com apenas 7 minutos por dia, sem esforço e sem sair de casa.",
+    headline: "**Não se preocupe!** O seu treino será %%estrategicamente%% adaptado com exercícios Ideais para o seu corpo e Situação atual.",
+    subheadline: "Vamos proteger as áreas lesionadas e, ao mesmo tempo, criar um plano para restaurar seu corpo.",
     ctaLabel: "Continuar",
     items: [
       { icon: Wind, color: "#2f6fb0", bg: "#eaf2fb", title: "Alivia tensões", text: "nas costas, no pescoço e nas articulações" },
@@ -365,6 +369,14 @@ export const quizSteps: QuizStep[] = [
     headline: (a: Answers) => `Ótimo, a intensidade do seu treino será:\n++${intensityLabel(a)}++`,
     body: "Você começará com treinos adaptados ao seu nível atual, mas com progressão RÁPIDA e NATURAL.",
     ctaLabel: "Continuar",
+  },
+  // 22b — Loading (donut) — same component/config as savingAnswers/savingFocusArea
+  {
+    id: "savingIntensity",
+    type: "loading",
+    variant: "donut",
+    headline: "Salvando suas respostas…",
+    durationMs: 2200,
   },
   // 23 — Duration
   {
@@ -697,6 +709,18 @@ export function goalLabel(a: Answers): string {
     health: "Melhorar minha saúde, energia e disposição",
   };
   return map[(a.goal as string) ?? "define"] ?? "Emagrecer sem sofrimento";
+}
+
+/** Bare age threshold used to personalize copy like "acima dos 40" / "Depois dos 40" —
+ * single source of truth so both usages stay coherent with the lead's step-1 answer. */
+export function ageThresholdNumber(a: Answers): string {
+  const map: Record<string, string> = {
+    "30-39": "30",
+    "40-49": "40",
+    "50-59": "50",
+    "60+": "60",
+  };
+  return map[(a.ageRange as string) ?? "40-49"] ?? "40";
 }
 
 export function ageRangeLabel(a: Answers): string {

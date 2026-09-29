@@ -62,7 +62,7 @@ export interface WelcomeStep extends BaseStep {
   type: "welcome";
   image: ImageSlot;
   headline: string;
-  body: string;
+  body: string | ((a: Answers) => string);
   center?: boolean;
   ctaLabel: string;
 }
@@ -108,10 +108,13 @@ export interface InfoStep extends BaseStep {
   calloutStyle?: "yellow";
   calloutEmoji?: string;
   /** The yellow callout's own message — the headline itself stays outside the box. */
-  calloutBody?: string;
+  calloutBody?: string | ((a: Answers) => string);
   /** A second headline-weight line rendered after the realImage/graph (e.g. "E quando isso acontece:"). */
   subheadline2?: string;
   body?: string | ((a: Answers) => string);
+  /** Renders `body` inside a green highlight box (the same treatment used on the offer
+   * page's "what you get" cards) instead of a plain paragraph, for extra visual weight. */
+  bodyHighlight?: "green";
   bullets?: { text: string; tone?: "danger" | "neutral" }[];
   /** Checked list rendered before a "middle"-positioned image (bullets renders after it). */
   preBullets?: { text: string; tone?: "danger" | "neutral" }[];
