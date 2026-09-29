@@ -235,12 +235,6 @@ export function ResultOfferScreen({ answers }: { answers: Answers }) {
         <PlanSelector selected={selectedPlan} onSelect={setSelectedPlan} onCta={handleCheckoutClick} />
       </div>
 
-      {/* Before / after */}
-      <div>
-        <SectionTitle title="O que muitas alunas relatam ao longo da jornada" />
-        <FullImage src="/images/quiz/offer-jornada.png" alt="Comparação de resultados antes e depois do programa" />
-      </div>
-
       {/* Scientific backing / comparison vs conventional training */}
       <div>
         <h2 className="text-[19px] font-extrabold leading-snug tracking-tight text-text">
